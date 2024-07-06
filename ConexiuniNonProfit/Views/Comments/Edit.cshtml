@@ -1,0 +1,70 @@
+﻿@model ConexiuniNonProfit.Models.Comment
+@{
+    ViewBag.Title = "Edit comment";
+}
+
+<style>
+    /* Global Styles */
+    body {
+        background: url('/images/WorkAndTravelUsa.png') no-repeat center center fixed;
+        background-size: cover;
+        color: black;
+        font-family: Arial, sans-serif; /* Specify a fallback font family */
+        margin: 0; /* Remove default margin */
+        padding: 0; /* Remove default padding */
+    }
+
+    /* Styling for the main content */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+    }
+
+    /* Form Styles */
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    .btn {
+        background-color: cornflowerblue; /* Green background */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+        .btn:hover {
+            background-color: cornflowerblue; /* Darker green on hover */
+        }
+
+    .text-danger {
+        color: red;
+    }
+</style>
+
+<div class="container">
+    <h2 class="fontbun1 culoarebuna">Editare comentariu</h2>
+    <br />
+
+    @using (Html.BeginForm("Edit", "Comments", FormMethod.Post, new { id = "editCommentForm" }))
+    {
+        @Html.LabelFor(model => model.CommentContent, "Continut comentariu", new { @class = "fontbun1" })
+        <br />
+        @Html.EditorFor(model => model.CommentContent, new { htmlAttributes = new { @class = "form-control fontbun1" } })
+        @Html.ValidationMessageFor(model => model.CommentContent, "", new { @class = "text-danger fontbun1" })
+        <br />
+        <br />
+        <button type="submit" class="btn culoaresus">Editeaza comentariul</button>
+    }
+</div>

@@ -1,0 +1,101 @@
+﻿@model ConexiuniNonProfit.Models.Profile
+@{
+    ViewBag.Title = "Lista de prieteni";
+}
+
+<style>
+    body {
+        background: url('/images/Poza.png') no-repeat center center fixed;
+        background-size: cover;
+        color: #333; /* Darker text color for better contrast */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* New font family */
+    }
+
+    .friend-container {
+        background-color: rgba(173, 216, 230, 0.8); /* Baby blue semi-transparent background */
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    }
+
+    .friend-details {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 20px;
+        border: 2px solid #87CEEB; /* Slight border for image */
+    }
+
+    .profile-name {
+        font-weight: bold;
+        color: #1E90FF; /* Dodger blue for names */
+        margin-bottom: 5px;
+        font-size: 18px; /* Increased font size */
+    }
+
+    .btn-danger {
+        background-color: #1E90FF; /* Dodger blue */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+
+        .btn-danger:hover {
+            background-color: #104E8B; /* Darker blue on hover */
+        }
+
+    #background-video {
+        display: none; /* Hide the background video on this page */
+    }
+</style>
+
+<div class="container">
+    <h2 class="fontbun1" style="color: #1E90FF;">Afisare Prieteni</h2>
+
+    @if (ViewBag.Prietenie == null || ViewBag.Prietenie.Count == 0)
+    {
+        <p class="fontbun1">Nu aveți niciun prieten adăugat.</p>
+    }
+    else
+    {
+        @foreach (var pr in ViewBag.Prietenie)
+        {
+            <div class="friend-container">
+                <div class="friend-details">
+                    <a href="/Profiles/Show2/@pr.UserId">
+                        @if (pr?.User?.Profile?.ProfileImage != null)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(pr.User.Profile.ProfileImage)" alt="Profile Picture" class="profile-image" />
+                        }
+                        else
+                        {
+                            <img src="/images/default-avatar.png" alt="Default Profile Picture" class="profile-image" />
+                        }
+                    </a>
+                    <div>
+                        <a href="/Profiles/Show2/@pr.UserId">
+                            <h3 class="profile-name">@pr.ProfileName</h3>
+                        </a>
+                        <p>@pr.ProfileUsername</p>
+                    </div>
+                </div>
+                <form method="post" action="/Profiles/DeleteFriendship/@pr.UserId">
+                    <button class="btn-danger" type="submit"><i class="bi bi-trash3"></i></button>
+                </form>
+            </div>
+        }
+    }
+</div>

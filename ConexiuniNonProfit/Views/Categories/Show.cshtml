@@ -1,0 +1,87 @@
+﻿@model ConexiuniNonProfit.Models.Category
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.CategoryName</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+         .card {
+            background-color: #343a40; /* Fundal card */
+            color: white; /* Text alb */
+            margin-bottom: 20px; /* Spațiu între carduri */
+        }
+
+        .card-title {
+            font-size: 1.2rem; /* Mărime titlu */
+        }
+
+        .card-text {
+            font-size: 0.9rem; /* Mărime text descriere */
+        }
+
+        .post-image {
+            width: 100%; /* Imagine full-width în card */
+            height: auto; /* Înălțime adaptivă */
+            object-fit: cover; /* Ajustare imagine */
+        }
+
+        .btn-custom {
+            background-color: cornflowerblue;
+            border-color: cornflowerblue;
+            color: white;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+            .btn-custom:hover {
+                background-color: #BD01;
+                border-color: #BD01;
+            }
+
+        body {
+            background: url('/images/Poza.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        #background-video {
+            display: none; /* Ascunde complet videoclipul pe această pagină */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-center mb-4">@Model.CategoryName</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            @foreach (var post in Model.Posts)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(@post.Image)" alt="Post Image" class="post-image" />
+                        <div class="card-body">
+                            <h5 class="card-title">@post.PostContent.Substring(0, Math.Min(@post.PostContent.Length, 100))</h5>
+                            <p class="card-text">@post.PostDate.ToShortDateString() by @post.User?.UserName</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="/Categories/Show" class="btn btn-custom">Show category list</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

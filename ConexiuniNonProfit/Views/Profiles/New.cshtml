@@ -1,0 +1,222 @@
+﻿@model ConexiuniNonProfit.Models.Profile
+@{
+    ViewBag.Title = "Profil nou";
+}
+
+<style>
+    body {
+        background: url('/images/Poza.png') no-repeat center center fixed;
+        background-size: cover;
+        color: white; /* Adjust text color for visibility */
+        font-family: Arial, sans-serif; /* Adjust font for clarity */
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .profile-form {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%; /* Full width */
+        max-width: 1200px; /* Max width for layout */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: row; /* Horizontal layout */
+        align-items: flex-start; /* Align to the top of container */
+        color: #333;
+    }
+
+        .profile-form .form-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .profile-form .form-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Align to top */
+            text-align: center; /* Center text for label */
+            align-self: flex-start; /* Align at start of flex container */
+            padding-top: 20px; /* Top spacing between image and form */
+        }
+
+        .profile-form h2 {
+            text-align: left;
+            margin-bottom: 20px;
+            color: #333;
+            width: 100%;
+        }
+
+        .profile-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .profile-form .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+            .profile-form .input-group span {
+                background: #ff8c00;
+                padding: 10px;
+                border-radius: 10px 0 0 10px;
+                color: white;
+            }
+
+        .profile-form .form-control {
+            border: 2px solid #ff8c00;
+            border-radius: 0 10px 10px 0;
+            padding: 10px;
+            flex: 1;
+        }
+
+            .profile-form .form-control:focus {
+                border-color: #ff6b00;
+                outline: none;
+            }
+
+        .profile-form .form-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ff8c00;
+            border-radius: 50%;
+            cursor: pointer;
+            outline: none;
+        }
+
+            .profile-form .form-checkbox:checked {
+                background-color: #ff8c00;
+            }
+
+        .profile-form .btn {
+            background-color: #ff8c00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 300px; /* Max width for button */
+        }
+
+            .profile-form .btn:hover {
+                background-color: #ff6b00;
+            }
+
+        .profile-form .profile-image {
+            text-align: center; /* Center for label and image */
+            margin-bottom: 20px;
+        }
+
+            .profile-form .profile-image img {
+                border-radius: 50%;
+                width: 150px;
+                height: 150px;
+                margin-bottom: 10px;
+            }
+
+            .profile-form .profile-image input {
+                display: none;
+            }
+
+            .profile-form .profile-image label {
+                cursor: pointer;
+                display: block;
+                margin-top: 10px;
+                color: #ff8c00;
+            }
+
+        .profile-form label {
+            font-size: 18px;
+            color: #ff8c00;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+</style>
+
+<div class="container">
+    @using (Html.BeginForm(actionName: "New", controllerName: "Profiles", method: FormMethod.Post, htmlAttributes: new { enctype = "multipart/form-data", @class = "profile-form", @id = "profileForm", @role = "form" }))
+    {
+        <div class="form-left">
+            <h2>Adăugare profil</h2>
+
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.Label("ProfileName", "Nume")
+                <div class="input-group">
+                    <span><i class="fas fa-user fa-icon"></i></span>
+                    @Html.TextBox("ProfileName", null, new { @class = "form-control", placeholder = "Introduceți numele dvs." })
+                </div>
+                @Html.ValidationMessage("ProfileName", null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("ProfileUsername", "Username")
+                <div class="input-group">
+                    <span><i class="fas fa-at fa-icon"></i></span>
+                    @Html.TextBox("ProfileUsername", null, new { @class = "form-control", placeholder = "Introduceți username-ul dvs." })
+                </div>
+                @Html.ValidationMessage("ProfileUsername", null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("ProfilePublic", "Public")
+                <div class="input-group">
+                    <span><i class="fas fa-check-square fa-icon"></i></span>
+                    @Html.CheckBox("ProfilePublic", new { @class = "form-checkbox" })
+                </div>
+                @Html.ValidationMessage("ProfilePublic", null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("ProfileBio", "Cu ce te ocupi")
+                <div class="input-group">
+                    <span><i class="fas fa-info-circle fa-icon"></i></span>
+                    @Html.TextArea("ProfileBio", null, new { @class = "form-control", rows = 5, placeholder = "Asociația se ocupă cu ..." })
+                </div>
+                @Html.ValidationMessage("ProfileBio", null, new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn">Adaugă profil</button>
+        </div>
+
+        <div class="form-right">
+            <div class="profile-image">
+                <img src="/images/default-avatar.png" alt="Imagine profil" id="profileImagePreview" />
+                <label for="ProfileImage"><i class="fas fa-camera"></i> Selectați o fotografie</label>
+                <input type="file" id="ProfileImage" name="ProfileImage" accept="image/*" onchange="previewImage(event)" />
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('profileImagePreview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>

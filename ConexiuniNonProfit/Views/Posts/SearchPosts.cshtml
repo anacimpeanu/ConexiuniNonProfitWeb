@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Search Posts";
+}
+
+<style>
+    body {
+        background: url('/images/CNP.png') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    .input-group.mb-3 {
+        max-width: 500px;
+        margin: 50px auto;
+        background: rgba(0, 0, 0, 0.6); /* Dark transparent background */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    }
+
+        .input-group.mb-3 .form-control {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            background: rgba(255, 255, 255, 0.8); /* Light transparent background */
+            color: black;
+        }
+
+        .input-group.mb-3 .culoarebuton4 {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            background-color: #00aaff; /* Bright blue button color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .input-group.mb-3 .culoarebuton4:hover {
+                background-color: #0088cc; /* Darker blue on hover */
+            }
+
+    .card {
+        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+        border-radius: 10px;
+        margin: 20px auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        color: black;
+        overflow: hidden;
+    }
+
+        .card img {
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .card .card-header9 {
+            text-align: center;
+        }
+
+            .card .card-header9 a {
+                color: #00aaff;
+                font-weight: bold;
+                text-decoration: none;
+                transition: color 0.3s;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow for depth */
+            }
+
+                .card .card-header9 a:hover {
+                    color: orange; /* Orange link color */
+                }
+
+        .card .card-subtitle {
+            text-align: center;
+        }
+
+    .fontbun1 {
+        color: black; /* Font color */
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7); /* Subtle text shadow */
+    }
+
+    .culoarebuna {
+        color: #00aaff; /* Bright blue text color */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* More prominent text shadow */
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    h3, h6 {
+        text-transform: uppercase; /* Uppercase text */
+        letter-spacing: 1px; /* Increased letter spacing */
+        font-weight: bold;
+    }
+
+    h3 {
+        background: linear-gradient(90deg, #00aaff, #00ff6a); /* Gradient text background */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    #background-video {
+        display: none; /* Ascunde complet videoclipul pe această pagină */
+    }
+
+    .description {
+        color: #555;
+        margin: 10px 0;
+    }
+</style>
+
+<h3 class="fontbun1 culoarebuna text-center mt-5">Introduceți termenul pe care doriți să îl căutați în postări!</h3>
+
+<form method="GET">
+    <div class="input-group mb-3 fontbun1">
+        <input type="text" class="form-control" placeholder="Termen de căutare" name="search" value="@ViewBag.SearchString">
+        <button class="culoarebuton4 border-0" type="submit">Caută</button>
+    </div>
+</form>
+
+@if (ViewBag.cautare == true)
+{
+    @if (ViewBag.posts.Count == 0)
+    {
+        <p class="text-center">Nu au fost găsite postări care să conțină termenul căutat.</p>
+    }
+    else
+    {
+        @foreach (var post in ViewBag.posts)
+        {
+            <div class="card">
+
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(post.Image)" alt="Profile Picture" />
+                <div class="card-header9 flex-column">
+                    <h3>@post.PostContent</h3>
+                    <div class="card-subtitle col d-block mb-2 text-muted center-block fontbun1">
+                        <h6>Posted by: @post.User.UserName on @post.PostDate.ToString("MM/dd/yyyy")</h6>
+                    </div>
+                    <a class="culoarebuton4 text-decoration-none culoarebuna fontbun1" href="/Posts/Show/@post.PostId">Vezi Postarea</a>
+                </div>
+            </div>
+        }
+    }
+}

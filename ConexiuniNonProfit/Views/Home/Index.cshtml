@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    body {
+        background: url('/images/Poza.png') no-repeat center center fixed;
+        background-size: cover;
+        color: black; /* Adjust text color for visibility */
+    }
+
+    .feature-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .feature {
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+        margin-bottom: 40px;
+        overflow: hidden;
+    }
+
+    .feature img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.5s;
+    }
+
+    .feature:hover img {
+        transform: scale(1.05);
+    }
+
+    .feature-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 10px;
+        width: 70%;
+        text-align: center;
+    }
+
+    .feature h3 {
+        color: orange;
+        margin-top: 10px;
+    }
+
+    .feature p {
+        color: white;
+    }
+
+    .header-title {
+        color: orange; /* Orange color for the header */
+    }
+
+    .feature:nth-child(odd) img {
+        animation: slideInLeft 1s;
+    }
+
+    .feature:nth-child(even) img {
+        animation: slideInRight 1s;
+    }
+
+</style>
+
+<div class="feature-section container">
+    <div class="feature">
+        <img src="/images/Prim1.png" alt="Post Announcements">
+        <div class="feature-content">
+            <h3>Post Announcements</h3>
+            <p>Associations can post announcements easily to keep their followers updated.</p>
+        </div>
+    </div>
+    <div class="feature">
+        <img src="/images/Prim.png" alt="Follow Associations">
+        <div class="feature-content">
+            <h3>Follow Associations</h3>
+            <p>Users can follow their favorite associations and stay informed about their activities.</p>
+        </div>
+    </div>
+    <div class="feature">
+        <img src="/images/Poza.png" alt="Social Interaction">
+        <div class="feature-content">
+            <h3>Social Interaction</h3>
+            <p>Engage with posts, leave comments, and interact with other users in the community.</p>
+        </div>
+    </div>
+</div>
+

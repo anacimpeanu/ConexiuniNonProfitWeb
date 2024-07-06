@@ -1,0 +1,138 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    body {
+        background: url('/images/Poza.png') no-repeat center center fixed;
+        background-size: cover;
+        color: #333; /* Darker color for text */
+        font-family: Arial, sans-serif; /* Clean and readable font */
+    }
+
+    .card {
+        background-color: white; /* White background for card */
+        color: #333; /* Darker text for better readability */
+        border-radius: 10px; /* Slightly rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        padding: 2rem; /* More padding for better spacing */
+        max-width: 400px; /* Set a max width for the card */
+        margin: 2rem; /* Margin around the card */
+        transition: transform 0.3s ease-in-out; /* Animatie de transformare */
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Blue button */
+        border: none;
+        color: white;
+        padding: 0.5rem 1rem;
+        font-size: 1.2rem; /* Marire font */
+        border-radius: 5px; /* Slightly rounded corners */
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+    .form-floating {
+        margin-bottom: 1rem; /* Space between form elements */
+    }
+
+    .form-control {
+        background-color: #f9f9f9; /* Light background for inputs */
+        color: #333; /* Darker text color */
+        border: 1px solid #ccc; /* Light border */
+        border-radius: 5px; /* Slightly rounded corners */
+        padding: 0.5rem;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #007bff; /* Blue border on focus */
+            box-shadow: none; /* No shadow on focus */
+        }
+
+    label {
+        color: #007bff; /* Blue color for labels */
+    }
+
+    .text-danger {
+        color: #ff6b6b; /* Red color for errors */
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .header h1 {
+            color: #007bff; /* Blue color for title */
+            font-size: 3rem; /* Marire font */
+            font-weight: bold;
+            transition: color 0.5s ease; /* Animatie pentru culoare */
+        }
+
+        .header p {
+            color: #ff6b6b; /* Orange color for subtitle */
+            font-size: 1.5rem; /* Marire font */
+        }
+
+    .card h2 {
+        font-size: 2rem; /* Marire font */
+        margin-bottom: 1rem;
+        color: #333; /* Darker color for heading */
+        transition: color 0.5s ease; /* Animatie pentru culoare */
+    }
+
+    hr {
+        border-top: 1px solid #ccc;
+    }
+
+    #background-video {
+        display: none; /* Ascunde complet videoclipul pe această pagină */
+    }
+
+    /* Stilizare iconuri */
+    .icon {
+        font-size: 2rem; /* Mărimea iconurilor */
+        margin-right: 10px; /* Spațiu între icon și text */
+    }
+
+    /* Animatie pentru card */
+    .card:hover {
+        transform: scale(1.05); /* Marirea cardului la hover */
+    }
+</style>
+
+<div class="d-flex justify-content-center">
+    <div class="card">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h1><i class="bi bi-person-plus icon text-primary"></i> Sign Up</h1>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                <label asp-for="Input.Password">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
+                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary"><i class="bi bi-person-plus icon"></i> Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

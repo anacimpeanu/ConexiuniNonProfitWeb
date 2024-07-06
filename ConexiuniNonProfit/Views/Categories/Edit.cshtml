@@ -1,0 +1,38 @@
+﻿@model ConexiuniNonProfit.Models.Category
+
+
+@{
+    ViewBag.Title = "Edit category";
+}
+
+<style>
+    .btn-success {
+        background-color: #ED3B9D;
+        border-color: #ED3B9D;
+        color: white;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+        .btn-success:hover {
+            background-color: #BD0071;
+            border-color: #BD0071;
+        }
+</style>
+
+<h2>@ViewBag.Title</h2>
+
+
+    @using (Html.BeginForm(controllerName: "Categories", actionName: "Edit", method: FormMethod.Post,
+                        routeValues: new { id = Model.CategoryId }))
+    {
+        @Html.Label("Name", "Category name")
+        <br />
+        @Html.Editor("Name")
+
+        @Html.ValidationMessageFor(m => m.CategoryName, null, new { @class = "text-danger" })
+        <br />
+
+        <br />
+
+        <button class="btn btn-success" type="submit">Update category</button>
+    }

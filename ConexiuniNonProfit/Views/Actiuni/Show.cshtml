@@ -1,0 +1,121 @@
+﻿@model ConexiuniNonProfit.Models.Actiuni
+@{
+    ViewBag.Title = "Actiuni Details";
+    Layout = null;
+    var isAdmin = ViewBag.IsAdmin ?? false;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card {
+            background-color: #343a40; /* Fundal card */
+            color: white; /* Text alb */
+            margin-bottom: 20px; /* Spațiu între carduri */
+        }
+
+        .btn-custom {
+            background-color: cornflowerblue;
+            border-color: cornflowerblue;
+            color: white;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+            .btn-custom:hover {
+                background-color: #BD01;
+                border-color: #BD01;
+            }
+
+        body {
+            background: url('/images/Poza.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .details-section {
+            background-color: rgba(0, 0, 0, 0.8); /* Fundal negru cu opacitate */
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .post-image {
+            width: 100%; /* Imagine full-width în card */
+            height: auto; /* Înălțime adaptivă */
+            object-fit: cover; /* Ajustare imagine */
+        }
+
+        .card-title {
+            font-size: 1.2rem; /* Mărime titlu */
+        }
+
+        .card-text {
+            font-size: 0.9rem; /* Mărime text descriere */
+        }
+
+        .actiuni-title {
+            font-size: 2.5rem; /* Mărime titlu acțiuni */
+            font-weight: bold; /* Bold */
+            margin-bottom: 20px; /* Spațiu sub titlu */
+            text-align: center; /* Aliniere centrată */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Umbra text */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="actiuni-title">@Model?.ActiuniName</h2>
+            </div>
+        </div>
+
+
+        @if (isAdmin)
+        {
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <a href="@Url.Action("Edit", "Actiuni", new { id = Model?.ActiuniId })" class="btn btn-warning">Edit</a>
+                    <form action="@Url.Action("Delete", "Actiuni", new { id = Model?.ActiuniId })" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Actiuni?');">Delete</button>
+                    </form>
+                    <a href="@Url.Action("Index", "Actiuni")" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-12">
+
+                @if (Model?.Posts != null && Model.Posts.Any())
+                {
+                    <div class="row">
+                        @foreach (var post in Model.Posts)
+                        {
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card">
+                                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(@post.Image)" alt="Post Image" class="post-image" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">@post.PostContent.Substring(0, Math.Min(@post.PostContent.Length, 100))</h5>
+                                        <p class="card-text">@post.PostDate.ToShortDateString() by @post.User?.UserName</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-center">No posts found in this Actiuni.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+﻿@model ConexiuniNonProfit.Models.Profile
+@{
+    ViewBag.Title = "Afisare profil";
+}
+
+<style>
+    body {
+        background: url('/images/Poza.png') no-repeat center center fixed;
+        background-size: cover;
+        color: #000;
+        font-family: 'Arial', sans-serif;
+    }
+    .h1{
+        color:orange;
+        font-family: 'Arial', sans-serif;
+    }
+    .container-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        margin-top: 50px;
+    }
+
+    .profile-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%;
+        max-width: 700px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .profile-image {
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        border: 2px solid #333;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+
+    .profile-details {
+        flex: 1;
+        text-align: center;
+    }
+
+        .profile-details h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .profile-details p {
+            margin: 5px 0;
+        }
+
+    .profile-stats {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        margin: 20px 0;
+        font-size: 14px;
+    }
+
+        .profile-stats div {
+            text-align: center;
+        }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .btn {
+        background-color: #0095f6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 4px;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background-color: #007bb5;
+        }
+
+    .edit-delete-icons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+        .edit-delete-icons a, .edit-delete-icons button {
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+            border: 2px solid #333;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: none;
+            cursor: pointer;
+        }
+
+            .edit-delete-icons a:hover, .edit-delete-icons button:hover {
+                color: #007bb5;
+                border-color: #007bb5;
+            }
+
+    .post-icon {
+        font-size: 2em;
+        color: #0095f6;
+        margin: 20px;
+    }
+
+        .post-icon a {
+            color: #0095f6;
+            text-decoration: none;
+        }
+
+            .post-icon a:hover {
+                color: #007bb5;
+            }
+
+    .message {
+        color: red;
+        font-weight: bold;
+    }
+
+    #background-video {
+        display: none; /* Hide the background video on this page */
+    }
+
+    .posts-section {
+        width: 100%;
+        max-width: 700px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+        margin-left: 200px;
+    }
+
+    .post-card {
+        width: 100%;
+        position: relative;
+        cursor: pointer;
+    }
+
+        .post-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #333;
+        }
+
+    .add-post-icon {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        .add-post-icon a {
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+            border: 2px solid #333;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: none;
+            cursor: pointer;
+        }
+</style>
+<div class="add">
+    @if (ViewBag.buton == true)
+    {
+        <a class="culoarebuton7" href="/Profiles/AddFriend/@Model.UserId"><i class="bi bi-person-plus-fill"></i></a>
+    }
+</div>
+<div class="container-card">
+    <div class="profile-card">
+        <div class="profile-header">
+            @if (Model.ProfileImage != null && Model.ProfileImage.Length > 0)
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ProfileImage)" alt="Profile Image" class="profile-image" />
+            }
+            else
+            {
+                <img src="/images/default-avatar.png" alt="Profile Image" class="profile-image" />
+            }
+            <div class="profile-details">
+                <h1>@Model.ProfileName</h1>
+                <p>@Model.ProfileUsername</p>
+                @if (ViewBag.Public == true || ViewBag.prieteni == true || Model.UserId == ViewBag.UserCurent)
+                {
+                    <p>@Model.ProfileBio</p>
+                }
+            </div>
+        </div>
+        <div class="button-container">
+            @if (Model.UserId == ViewBag.UserCurent)
+            {
+                <a class="btn" href="/Profiles/All/@Model.UserId">Afiseaza prieteni</a>
+                <a class="btn" href="/Profiles/Request">Afiseaza cereri</a>
+            }
+        </div>
+<div class="edit-delete-icons">
+    @if (ViewBag.AfisareButoane == true && Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
+    {
+        <a href="/Profiles/Edit/@Model.ProfileId" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+        <form method="post" action="/Profiles/Delete/@Model.ProfileId" style="display:inline;">
+            <button type="submit" title="Delete"><i class="fas fa-trash"></i></button>
+        </form>
+                <div class="add-post-icon">
+                    <a href="/Posts/New" title="New Post"><i class="bi bi-plus-circle-fill"></i></a>
+                </div>
+    }
+
+</div>
+        @if (ViewBag.Public == false && ViewBag.prieteni == false && Model.UserId != ViewBag.UserCurent)
+        {
+            <p class="message">Acest utilizator are contul privat!</p>
+        }
+    </div>
+</div>
+
+<div class="cards">
+    <div class="card2">
+        <div class="cards3">
+
+
+            <!-- Posts Section -->
+            <div class="posts-section">
+                @foreach (var post in ViewBag.Posts)
+                {
+                    <div class="post-card" onclick="location.href='/Posts/Show/@post.PostId'">
+                        @if (post.Image != null && post.Image.Length > 0)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(post.Image)" alt="Post Image" />
+                        }
+                        else
+                        {
+                            <p>@post.PostContent</p>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.Public == false && ViewBag.prieteni == false && Model.UserId != ViewBag.UserCurent)
+{
+    <h2 class="fontbun1 mb-5 mt-5 ml-sm-5 culoarebuna">Acest utilizator are contul privat!</h2>
+}
+
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
