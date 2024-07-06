@@ -41,35 +41,31 @@ ConexiuniNonProfit is a dynamic web application developed using Entity Framework
   - 🖼 **Profile Management:** Create and customize their profiles with personal information, and bios.
 
     <div align="center">  
-      <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/55d6a6c8-5b57-4a1f-b887-33fda24a7c8b">
+      <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/b4d430e6-1be0-4858-9e89-a0d981e3079a">
+            <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/40389119-3c0d-4aed-b535-c764fd794a0d">
     </div>
     
   - 👫 **Friendship Features:** Add friends, view friends' lists, and interact with friends' posts and also see a list of friends requests.
     
     <div align="center">  
-      <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/5330b573-15b2-435c-a52d-5213883315aa">
+      <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/52e9cdc5-bd71-4743-8d66-cc0b04eaad15">
     </div> 
-    
-  - 🏘 **Groups:** Join existing groups or create new ones, post updates, and interact within group discussions.
-    
-    <div align="center">  
-      <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/fba7cb54-5634-4800-a3ae-c8af60b5a4bf">
-    </div>
     
   - 📬 **Posting and Interaction:** Create posts, add comments, and edit or delete their own posts and comments.
 
 <div align="center">  
-    <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/1d4d737c-fb5c-4de9-8aa7-cd0923aa77b1">
+    <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/6c96e91d-d51f-406f-b075-39f49987ab27">
 </div>
+
 ### Admin Users:
-  - ⚖️ **Manage Content:** Delete any group or post, ensuring adherence to community guidelines.
-  - 👥 **User Management:** Oversee user activities, manage user roles, and ensure community standards are maintained.
+⚖️ Manage Content: Add, edit, or delete any category or action to ensure relevant and up-to-date information.
+👥 User Management: Oversee user activities, manage user roles, and maintain community standards.
 
 ### User Authentication:
   - 🔒 Robust user authentication system allowing users to securely log in or sign up for an account.
       
 ### Moderator Environment:
-  - 🎛 **Moderator Platform:** A dedicated platform for moderators to manage various aspects of the application, including adding or removing groups, comments.
+  - 🎛 **Moderator Platform:** A dedicated platform for moderators to manage various aspects of the application, including adding or removing profiles, comments.
 
 
 </details>
@@ -78,7 +74,7 @@ ConexiuniNonProfit is a dynamic web application developed using Entity Framework
 
 <details>
     <summary> 
-     <h3> LimeChat - Features🍋 </h3>
+     <h3> ConexiuniNonProfit - Features </h3>
   </summary>
   
 ### View Public Posts 
@@ -98,57 +94,64 @@ ConexiuniNonProfit is a dynamic web application developed using Entity Framework
             Find and connect with other users easily. 
             Use the search function to discover friends, new contacts, or people with similar interests.
   <div align="center">       
-  <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/8a14ba6a-daba-4e72-92fc-da38fc28dba0">
+  <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/6eb26da6-b32d-4b70-adda-944787fa2419">
   </div>
   
+### Search Posts:
+🔍 Search Functionality: Easily search for posts by name to find specific projects, updates, or activities of interest.
+  <div align="center">       
+  <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/d6f17811-71e8-454d-8a53-0ad8fe16448d">
+  </div>
 ### Friend Requests
             Send and accept friend requests to build your network. 
             Stay connected with the people you care about and expand your social circle.
-  <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/87984f10-d720-4f1e-ac3f-3bd415a46333 ">
-  <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/cf44823c-cf3d-437a-ab8d-2fcc26c0633f">
-
+  <div align="center">     
+  <img width="500" alt="image" src="(https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/b56379bf-251a-40e9-99d0-d8c6c71b0875">
+  <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/bf6bd439-57e9-4a07-80da-6e61919aaf27">
+  </div>
 ### Create Posts
             Share your thoughts, updates, and moments with your friends.
             Whether it's a life update, a funny story, or a photo, let your voice be heard.
-  <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/fdc3e833-4e8c-48e7-9b32-a82fdf145b80">
-   <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/ce8dc86b-c658-4d6d-b82e-18ab2097a27e">
+  
+  <div align="center"> 
+  <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/f574c59a-ceeb-42b4-a5b3-b956309783c1">
+   <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/48bb4fb6-0b6d-490c-a2ca-593574cccac8">
+  </div>
 
-### Join Groups
-            Create or join groups to share posts and interact within communities. 
-            Find groups that match your interests and participate in focused discussions.
-            
-  <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/2dd42888-cccc-4b41-b64e-a31162e04407">
-  <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/ef802853-0d91-49f6-b3ee-c30b8a6646e8">
+### Actions
+        View a list of actions, and click on any action to see all related posts. 
+        Filter posts by date, location, or keywords to find specific activities or initiatives.
+    
+  <div align="center">     
+  <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/853931fe-383b-4e8a-8ad4-62885b234062">
+   <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/c312d485-30a7-45a0-8dce-a4bff1a2a529">
+  </div>
 
-### Group Posts
-            Post updates and participate in group discussions.
-            Engage with group members by sharing relevant content and joining conversations.
-
+### Categories
+      Browse through categories, and select any category to view relevant posts. 
+      Refine your search within a category using filters like popularity,
+      recent activity, or specific tags.
+      
+ <div align="center">      
+<img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/2593abe8-7294-42ba-95d7-15178f67f28d">
+   <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/e4626aba-7472-4a39-98c7-b03820f71854">
+ </div>
+ 
 ### Comment
             Leave comments on posts, and edit or delete them as needed. 
             Interact with others by providing feedback, asking questions, or simply joining the conversation.
             
 <div align="center">  
-<img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/4cd2529e-c590-40e0-a42c-55c71f0906b2">
+<img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/d0f6a579-f4ad-4b04-995d-5b3a78259b6b">
 </div>
+
 ### Edit Profile
             Keep your profile information up-to-date with ease. 
             Regularly update your bio,  and other details to reflect your current self.
-            
-### Group Membership: 
-            View and interact with group members.
-            See who else is in your groups and engage with them through posts and comments.
-<div align="center">  
-    <img width="500" alt="image" src="https://github.com/anacimpeanu/LimeChatApp/assets/115561036/edd595b7-99ea-416f-adc5-7b3c3aba9fd2">
+ <div align="center">  
+<img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/5d7dd2fc-19c6-4d7f-a352-1c411bfdcb42">   
+ </div>
 </div>
 </details>
 
-### TEAM 
-
-- [Ana - Maria Cimpeanu](https://github.com/anacimpeanu)
-- [Nicoleta Carmen Iova](https://github.com/nicoletaiova25)
-- [Artemis Constantina Tismanaru ( Tina )](https://github.com/ArtemisTismanaru)
-
----
-### 📽 Video: [LIME CHAT APP 🧁](https://youtu.be/FSN_3X7RDw8)
-### 🖥 Code: [The Code 🧁](https://github.com/anacimpeanu/LimeChatApp/tree/master/LimeChat)
+### 🖥 Code: [The Code 🧁](https://github.com/anacimpeanu/ConexiuniNonProfitWeb/tree/master/ConexiuniNonProfit)
