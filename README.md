@@ -106,9 +106,10 @@ ConexiuniNonProfit is a dynamic web application developed using Entity Framework
             Send and accept friend requests to build your network. 
             Stay connected with the people you care about and expand your social circle.
   <div align="center">     
-  <img width="500" alt="image" src="(https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/b56379bf-251a-40e9-99d0-d8c6c71b0875">
+  <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/b56379bf-251a-40e9-99d0-d8c6c71b0875">
   <img width="500" alt="image" src="https://github.com/anacimpeanu/ConexiuniNonProfitWeb/assets/115561036/bf6bd439-57e9-4a07-80da-6e61919aaf27">
   </div>
+  
 ### Create Posts
             Share your thoughts, updates, and moments with your friends.
             Whether it's a life update, a funny story, or a photo, let your voice be heard.
