@@ -1,0 +1,77 @@
+﻿@model IEnumerable<dynamic>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-5">Proiectele mele și participanții</h2>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card project-card">
+                    <div class="card-body">
+                        @if (item.Post.Image != null)
+                        {
+                            <img src="data:image/*;base64,@(Convert.ToBase64String(item.Post.Image))" class="card-img-top mb-3" alt="Post image">
+                        }
+                        <div class="participant-count">
+                            <i class="bi bi-people-fill"></i>
+                            <span class="count">@item.ParticipantCount</span>
+                            <span class="label">participanți</span>
+                        </div>
+                        <a href="@Url.Action("Show", new { id = item.Post.PostId })" class="btn btn-primary mt-3">Vezi detalii</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .project-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+    .participant-count {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+        .participant-count .count {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .participant-count .label {
+            color: #666;
+        }
+
+    .bi-people-fill {
+        color: #007bff;
+        font-size: 1.2em;
+    }
+
+    .card-title {
+        color: #2c3e50;
+        font-size: 1.1em;
+        line-height: 1.4;
+        margin-bottom: 15px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>

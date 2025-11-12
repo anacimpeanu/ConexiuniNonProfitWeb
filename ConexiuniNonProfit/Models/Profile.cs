@@ -3,7 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ConexiuniNonProfit.Models
 {
-	public class Profile
+    public enum ProfileType
+    {
+        Voluntar,
+        Asociatie
+    }
+    public class Profile
 	{
 		[Key]
 
@@ -25,9 +30,11 @@ namespace ConexiuniNonProfit.Models
 
 		public bool ProfilePublic { get; set; }
 
+        [Required(ErrorMessage = "Selectați tipul de profil")]
+        public ProfileType ProfileCategory { get; set; }
 
-		//public virtual ICollection<Group>? Groups { get; set; }
+        //public virtual ICollection<Group>? Groups { get; set; }
 
 
-	}
+    }
 }

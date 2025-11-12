@@ -3,6 +3,7 @@ using ConexiuniNonProfit.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -10,8 +11,8 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace ConexiuniNonProfit.Controllers
 {
-	public class PostsController : Controller
-	{
+	public class PostsController : Controller, IActionFilter
+    {
 		private readonly ApplicationDbContext db;
 
 		private readonly UserManager<ApplicationUser> _userManager;
@@ -286,13 +287,27 @@ namespace ConexiuniNonProfit.Controllers
 			// Setează numele categoriei și statului în ViewBag
 			ViewBag.CategoryName = db.Categories.FirstOrDefault(c => c.CategoryId == post.CategoryId)?.CategoryName;
 			ViewBag.ActiuniName = db.Actiuni.FirstOrDefault(s => s.ActiuniId == post.ActiuniId)?.ActiuniName;
+          
 
-			return View(post);
+            return View(post);
 		}
 
+        [HttpGet]
+        public IActionResult PostsByCategory(string category)
+        {
+            var posts = db.Posts
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                .Where(p => p.Category.CategoryName == category)
+                .OrderByDescending(p => p.PostDate)
+                .ToList();
 
-		// Adaugarea unui comentariu asociat unui articol in baza de date
-		[HttpPost]
+            return View("Posts", posts);
+        }
+
+
+        // Adaugarea unui comentariu asociat unui articol in baza de date
+        [HttpPost]
 		[Authorize(Roles = "User,Admin")]
 		public IActionResult Show([FromForm] Comment comment)
 		{
@@ -345,9 +360,129 @@ namespace ConexiuniNonProfit.Controllers
 			return View();
 		}
 
+        [HttpPost]
+        [Authorize]
+        public IActionResult Participate(int postId)
+        {
+            var userId = _userManager.GetUserId(User);
+            var userProfile = db.Profiles.FirstOrDefault(p => p.UserId == userId);
+
+            if (userProfile?.ProfileCategory != ProfileType.Voluntar)
+                return RedirectToAction("Show", new { id = postId });
+
+            if (!db.UserParticipations.Any(up => up.UserId == userId && up.PostId == postId))
+            {
+                var participation = new UserParticipation
+                {
+                    UserId = userId,
+                    PostId = postId,
+                    Points = 10,
+                    ParticipationDate = DateTime.Now
+                };
+
+                db.UserParticipations.Add(participation);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Show", new { id = postId });
+        }
+
+        public string GetUserBadge(string userId)
+        {
+            var totalPoints = db.UserParticipations
+                .Where(up => up.UserId == userId)
+                .Sum(up => up.Points);
+
+            var ranking = db.UserParticipations
+                .GroupBy(up => up.UserId)
+                .Select(g => new { UserId = g.Key, Points = g.Sum(up => up.Points) })
+                .OrderByDescending(x => x.Points)
+                .ToList();
+
+            var userRank = ranking.FindIndex(x => x.UserId == userId) + 1;
+
+            if (userRank <= 5) return "Top Utilizator";
+            if (totalPoints > 0) return "Utilizator Activ";
+            return "";
+        }
+
+        public IActionResult MyParticipations()
+        {
+            var userId = _userManager.GetUserId(User);
+            var participations = db.UserParticipations
+                .Include(up => up.Post)
+                .Where(up => up.UserId == userId)
+                .ToList();
+
+            ViewBag.Badge = GetUserBadge(userId);
+            return View(participations);
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = _userManager.GetUserId(User);
+                ViewBag.UserBadge = GetUserBadge(userId);
+            }
+        }
+
+        public IActionResult Leaderboard()
+        {
+            // Obține toți utilizatorii cu punctaje, ordonați după puncte și data
+            var allUsers = db.UserParticipations
+                .GroupBy(up => up.UserId)
+                .Select(g => new LeaderboardEntry
+                {
+                    User = db.Users.Include(u => u.Profile).FirstOrDefault(u => u.Id == g.Key),
+                    Points = g.Sum(up => up.Points),
+                    LastParticipationDate = g.Max(up => up.ParticipationDate)
+                })
+                .OrderByDescending(x => x.Points)
+                .ThenBy(x => x.LastParticipationDate)
+                .ToList();
+
+            // Procesează rankingul pentru utilizatori cu același punctaj
+            int currentRank = 1;
+            int currentPoints = -1;
+            foreach (var entry in allUsers)
+            {
+                if (entry.Points != currentPoints)
+                {
+                    currentRank = allUsers.Take(allUsers.IndexOf(entry)).Count() + 1;
+                    currentPoints = entry.Points;
+                }
+                entry.Rank = currentRank;
+            }
+
+            // Separă top 3 și restul
+            var topThree = allUsers.Take(3).ToList();
+            ViewBag.OtherUsers = allUsers.Skip(3).ToList();
+
+            return View(topThree);
+        }
 
 
-		private void SetAccessRights()
+        // Controller
+        public IActionResult AssociationPosts()
+		{
+		   var userId = _userManager.GetUserId(User);
+		   var posts = db.Posts
+			   .Include(p => p.User)
+			   .Where(p => p.UserId == userId)
+			   .Select(p => new {
+				   Post = p,
+				   ParticipantCount = db.UserParticipations.Count(up => up.PostId == p.PostId)
+			   })
+			   .Where(x => x.ParticipantCount > 0)
+			   .OrderByDescending(x => x.ParticipantCount)
+			   .ToList();
+
+		   return View(posts);
+		}
+
+        private void SetAccessRights()
 		{
 			ViewBag.AfisareButoane = false;
 

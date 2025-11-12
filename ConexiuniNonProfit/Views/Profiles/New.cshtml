@@ -189,10 +189,20 @@
                 @Html.Label("ProfileBio", "Cu ce te ocupi")
                 <div class="input-group">
                     <span><i class="fas fa-info-circle fa-icon"></i></span>
-                    @Html.TextArea("ProfileBio", null, new { @class = "form-control", rows = 5, placeholder = "Asociația se ocupă cu ..." })
+                    @Html.TextArea("ProfileBio", null, new { @class = "form-control", rows = 5, placeholder = "Activitatea ta ..." })
                 </div>
                 @Html.ValidationMessage("ProfileBio", null, new { @class = "text-danger" })
             </div>
+
+            <div class="form-group">
+                @Html.Label("ProfileCategory", "Tip Profil")
+                <div class="input-group">
+                    <span><i class="fas fa-user-tag fa-icon"></i></span>
+                    @Html.DropDownList("ProfileCategory", new SelectList(Enum.GetValues(typeof(ConexiuniNonProfit.Models.ProfileType))), "Selectați tipul", new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessage("ProfileCategory", null, new { @class = "text-danger" })
+            </div>
+
 
             <button type="submit" class="btn">Adaugă profil</button>
         </div>

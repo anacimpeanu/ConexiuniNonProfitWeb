@@ -1,6 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject ConexiuniNonProfit.Data.ApplicationDbContext _context
+@using Microsoft.EntityFrameworkCore
+@inject ConexiuniNonProfit.Data.ApplicationDbContext _context
+@{
+    var currentUserId = UserManager.GetUserId(User);
+    var userProfile = _context.Profiles.FirstOrDefault(p => p.UserId == currentUserId);
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Conexiuni NonProfit</title>
@@ -107,12 +116,28 @@
                                 <i class="bi bi-card-text"></i> Afisare postari
                             </a>
                         </li>
+                       <!-- <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Matching" asp-action="Play">Găsește Asociația Potrivită</a>
+                        </li>-->
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                            @inject UserManager<ApplicationUser> UserManager
+                                var user = await UserManager.GetUserAsync(User);
+                                var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserId == user.Id);
+
+                                if (profile?.ProfileCategory == ProfileType.Voluntar)
+                                {
+                                    <a class="nav-link text-dark" asp-controller="Matching" asp-action="Play">Găsește Asociația Potrivită</a>
+                                }
+                            }
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Profiles" asp-action="Index">
                                 <i class="bi bi-people"></i> Profile
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!--<li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">
                                 <i class="bi bi-tags"></i> Categories
                             </a>
@@ -121,17 +146,31 @@
                             <a class="nav-link" asp-area="" asp-controller="Actiuni" asp-action="Index">
                                 <i class="bi bi-lightning"></i> Actiuni
                             </a>
-                        </li>
+                        </li>-->
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Profiles" asp-action="SearchBar">
                                 <i class="bi bi-search"></i> Cauta profil
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!--<li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Posts" asp-action="SearchPosts">
                                 <i class="bi bi-search"></i> Cauta postare
                             </a>
+                        </li>-->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Posts" asp-action="Leaderboard">
+                                <i class="bi bi-trophy"></i> Leaderboard
+                            </a>
                         </li>
+
+                        @if (User.Identity.IsAuthenticated && userProfile?.ProfileCategory == ProfileType.Asociatie)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Posts" asp-action="AssociationPosts">
+                                    <i class="bi bi-list-stars"></i> Proiecte și Participanți
+                                </a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

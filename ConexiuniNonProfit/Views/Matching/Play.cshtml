@@ -1,0 +1,263 @@
+﻿@model List<PuzzlePiece>
+
+<style>
+    .quiz-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #0FF0B3 0%, #036ED9 100%);
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .animated-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 10%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 10%);
+        animation: backgroundMove 20s linear infinite;
+    }
+
+    .content-wrapper {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 800px;
+        width: 100%;
+    }
+
+    .quiz-title {
+        font-size: 2.5rem;
+        color: white;
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        animation: fadeInDown 1s ease-out;
+    }
+
+    .quiz-description {
+        color: white;
+        font-size: 1.2rem;
+        margin-bottom: 3rem;
+        line-height: 1.6;
+        animation: fadeIn 1s ease-out 0.5s both;
+    }
+
+    .quiz-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        background: white;
+        color: #036ED9;
+        padding: 1.2rem 2.5rem;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        animation: fadeInUp 1s ease-out 1s both;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .quiz-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .quiz-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            color: #0FF0B3;
+        }
+
+            .quiz-button:hover::before {
+                transform: translateX(100%);
+            }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 4rem;
+        animation: fadeIn 1s ease-out 1.5s both;
+    }
+
+    .feature-card {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        color: white;
+        transition: transform 0.3s ease;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+       @@keyframes fadeInDown {
+       from {
+           opacity: 0;
+           transform: translateY(-30px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }
+      @@keyframes fadeInUp {
+       from {
+           opacity: 0;
+           transform: translateY(30px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }
+      @@keyframes fadeIn {
+       from { opacity: 0; }
+       to { opacity: 1; }
+   }
+
+   @@keyframes backgroundMove {
+       0% { background-position: 0% 0%; }
+       100% { background-position: 100% 100%; }
+   }
+    .puzzle-container {
+        padding: 2rem;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .puzzle-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .puzzle-card {
+        perspective: 1000px;
+        height: 200px;
+    }
+
+    .puzzle-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+    }
+
+    .puzzle-card:hover .puzzle-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .puzzle-card-front, .puzzle-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        padding: 1rem;
+    }
+
+    .puzzle-card-front {
+        background: white;
+    }
+
+    .puzzle-card-back {
+        background: #2196F3;
+        color: white;
+        transform: rotateY(180deg);
+    }
+</style>
+
+<div class="quiz-container">
+    <div class="animated-bg"></div>
+    <div class="content-wrapper">
+        <h1 class="quiz-title">Descoperă-ți Calea în Voluntariat</h1>
+        <p class="quiz-description">
+            Completează quiz-ul nostru special conceput pentru a găsi oportunitățile
+            de voluntariat care se potrivesc perfect cu interesele și abilitățile tale.
+        </p>
+
+        <a href="@Url.Action("Quiz", "Matching")" class="quiz-button">
+            <i class="bi bi-play-circle-fill"></i>
+            Începe Quiz-ul
+        </a>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-bullseye"></i>
+                </div>
+                <h3>Personalizat</h3>
+                <p>Recomandări adaptate profilului tău</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-clock"></i>
+                </div>
+                <h3>Rapid</h3>
+                <p>Doar câteva minute pentru a găsi potrivirea perfectă</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <h3>Precis</h3>
+                <p>Algoritm avansat de matching</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <h3>Conectare</h3>
+                <p>Găsește comunitatea perfectă pentru tine</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="puzzle-grid">
+        @foreach (var piece in Model)
+        {
+            <div class="puzzle-card">
+                <div class="puzzle-card-inner">
+                    <div class="puzzle-card-front">
+                        <h3>@piece.VolunteerNeed</h3>
+                        <p>@piece.Category</p>
+                    </div>
+                    <div class="puzzle-card-back">
+                        <h3>Potrivire</h3>
+                        <p>@piece.AssociationMatch</p>
+                        <p>@piece.ActionType</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

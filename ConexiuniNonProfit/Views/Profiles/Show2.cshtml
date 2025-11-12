@@ -216,6 +216,7 @@
                 <p>@Model.ProfileUsername</p>
                 @if (ViewBag.Public == true || ViewBag.prieteni == true || Model.UserId == ViewBag.UserCurent)
                 {
+                    <p><strong>Tip Profil:</strong> @Model.ProfileCategory</p>
                     <p>@Model.ProfileBio</p>
                 }
             </div>

@@ -1,6 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject ConexiuniNonProfit.Data.ApplicationDbContext db
+@{
+    var currentUserId = UserManager.GetUserId(User);
+    var userProfile = db.Profiles.FirstOrDefault(p => p.UserId == currentUserId);
+}
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
@@ -13,6 +18,27 @@
                 <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
             </form>
         </li>
+        @if (User.Identity.IsAuthenticated && userProfile?.ProfileCategory == ProfileType.Voluntar)
+        {
+            var userId = UserManager.GetUserId(User);
+            var participations = db.UserParticipations.Count(up => up.UserId == userId);
+            var badge = "";
+
+            @if (ViewBag.UserBadge == "Top Utilizator")
+            {
+                badge = "🏆";
+            }
+            else if (ViewBag.UserBadge == "Utilizator Activ")
+            {
+                badge = "⭐";
+            }
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Posts" asp-action="MyParticipations">
+                    Proiecte participante (@participations) @badge
+                </a>
+            </li>
+        }
     }
     else
     {

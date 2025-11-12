@@ -1,0 +1,23 @@
+﻿@model List<UserParticipation>
+
+<h2>Proiectele mele @ViewBag.Badge</h2>
+
+<div class="row">
+    @foreach (var participation in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    @if (participation.Post.Image != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(participation.Post.Image))" class="card-img-top mb-3" alt="Post image">
+                    }
+                    <p>Data participării: @participation.ParticipationDate.ToShortDateString()</p>
+                    <p>Puncte: @participation.Points</p>
+                    <a href="@Url.Action("Show", "Posts", new { id = participation.PostId })"
+                       class="btn btn-primary">Vezi detalii</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

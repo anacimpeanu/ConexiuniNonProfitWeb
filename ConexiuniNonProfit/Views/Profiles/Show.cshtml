@@ -10,10 +10,12 @@
         color: #000;
         font-family: 'Arial', sans-serif;
     }
-    .h1{
-        color:orange;
+
+    .h1 {
+        color: orange;
         font-family: 'Arial', sans-serif;
     }
+
     .container-card {
         display: flex;
         flex-direction: column;
@@ -196,13 +198,121 @@
             background: none;
             cursor: pointer;
         }
-</style>
-<div class="add">
-    @if (ViewBag.buton == true)
-    {
-        <a class="culoarebuton7" href="/Profiles/AddFriend/@Model.UserId"><i class="bi bi-person-plus-fill"></i></a>
+    /* Stiluri pentru butonul de adăugare prieteni */
+    .add-friend-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #0095f6;
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
     }
-</div>
+
+        .add-friend-btn:hover {
+            background-color: #007bb5;
+        }
+
+        .add-friend-btn i {
+            font-size: 16px;
+        }
+    /* Stiluri pentru containerul cu detalii despre utilizator */
+    .profile-details {
+        flex: 1;
+        text-align: left;
+        padding-left: 20px;
+    }
+
+        .profile-details h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .profile-details p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+    .profile-stats {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        margin: 20px 0;
+        font-size: 14px;
+    }
+
+        .profile-stats div {
+            text-align: center;
+        }
+
+    /* Stiluri pentru butoane */
+    .btn {
+        background-color: #0095f6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 4px;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn:hover {
+            background-color: #007bb5;
+        }
+
+    /* Stiluri pentru iconițele de editare și ștergere */
+    .edit-delete-icons a, .edit-delete-icons button {
+        font-size: 18px;
+        color: #333;
+        text-decoration: none;
+        border: 2px solid #333;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        cursor: pointer;
+        transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .edit-delete-icons a:hover, .edit-delete-icons button:hover {
+            color: #007bb5;
+            border-color: #007bb5;
+        }
+
+    /* Stiluri pentru iconița de adăugare post */
+    .add-post-icon a {
+        font-size: 18px;
+        color: #333;
+        text-decoration: none;
+        border: 2px solid #333;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        cursor: pointer;
+        transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .add-post-icon a:hover {
+            color: #007bb5;
+            border-color: #007bb5;
+        }
+</style>
+
 <div class="container-card">
     <div class="profile-card">
         <div class="profile-header">
@@ -214,11 +324,24 @@
             {
                 <img src="/images/default-avatar.png" alt="Profile Image" class="profile-image" />
             }
+            @if (ViewBag.FriendsCount >= 2)
+            {
+                <img src="/images/badge.jpg" alt="Badge" style="width: 50px; height: 50px; margin-left: 10px;" />
+            }
             <div class="profile-details">
-                <h1>@Model.ProfileName</h1>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <h1>@Model.ProfileName</h1>
+                    @if (ViewBag.buton == true)
+                    {
+                        <a class="add-friend-btn" href="/Profiles/AddFriend/@Model.UserId" title="Adaugă prieten">
+                            <i class="bi bi-person-plus-fill"></i>
+                        </a>
+                    }
+                </div>
                 <p>@Model.ProfileUsername</p>
                 @if (ViewBag.Public == true || ViewBag.prieteni == true || Model.UserId == ViewBag.UserCurent)
                 {
+                    <p><strong>Tip Profil:</strong> @Model.ProfileCategory</p>
                     <p>@Model.ProfileBio</p>
                 }
             </div>
@@ -230,19 +353,18 @@
                 <a class="btn" href="/Profiles/Request">Afiseaza cereri</a>
             }
         </div>
-<div class="edit-delete-icons">
-    @if (ViewBag.AfisareButoane == true && Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
-    {
-        <a href="/Profiles/Edit/@Model.ProfileId" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-        <form method="post" action="/Profiles/Delete/@Model.ProfileId" style="display:inline;">
-            <button type="submit" title="Delete"><i class="fas fa-trash"></i></button>
-        </form>
+        <div class="edit-delete-icons">
+            @if (ViewBag.AfisareButoane == true && Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
+            {
+                <a href="/Profiles/Edit/@Model.ProfileId" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                <form method="post" action="/Profiles/Delete/@Model.ProfileId" style="display:inline;">
+                    <button type="submit" title="Delete"><i class="fas fa-trash"></i></button>
+                </form>
                 <div class="add-post-icon">
                     <a href="/Posts/New" title="New Post"><i class="bi bi-plus-circle-fill"></i></a>
                 </div>
-    }
-
-</div>
+            }
+        </div>
         @if (ViewBag.Public == false && ViewBag.prieteni == false && Model.UserId != ViewBag.UserCurent)
         {
             <p class="message">Acest utilizator are contul privat!</p>
@@ -284,3 +406,8 @@
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">

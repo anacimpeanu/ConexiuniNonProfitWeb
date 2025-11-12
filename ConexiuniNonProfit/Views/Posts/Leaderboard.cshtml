@@ -1,0 +1,465 @@
+﻿<style>
+    .leaderboard-container {
+        background: rgb(13, 17, 54);
+        color: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        max-width: 800px;
+        margin: 1rem auto;
+        font-family: 'Segoe UI', sans-serif;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+
+    .podium-section {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 3rem;
+        height: 250px;
+        position: relative;
+        margin-bottom: 3rem; /* Adăugat spațiu între podium și lista */
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Linie de separare */
+        padding-bottom: 2rem;
+    }
+
+    .other-users {
+        margin-top: 2rem; /* Spațiu deasupra listei */
+        padding-top: 1rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 1rem;
+        padding: 1rem;
+    }
+
+    /* Elimină z-index din elementele podiumului */
+    .podium-user.first,
+    .podium-user.second,
+    .podium-user.third {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Elimină overflow hidden pentru a permite efectele de glow */
+    .leaderboard-container {
+        overflow: visible;
+    }
+
+    /* Ajustează spațierea verticală pentru lista de utilizatori */
+    .user-row {
+        padding: 0.75rem 1rem;
+        margin: 0.5rem 0;
+        border-radius: 0.5rem;
+    }
+
+    .podium-section {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        margin: 2rem 0; /* redus de la 6rem */
+        gap: 3rem;
+        height: 300px; /* redus de la 400px */
+        position: relative;
+    }
+
+
+
+    .podium-user {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+   .podium-user.first {
+       transform: translateY(0);
+       position: relative;
+       z-index: 3;
+   }
+   .podium-user.second {
+       transform: translateY(60px); /* Coboară locul 2 */
+       position: relative;
+       z-index: 2;
+   }
+   .podium-user.third {
+       transform: translateY(120px); /* Coboară locul 3 și mai jos */
+       position: relative;
+       z-index: 1;
+   }
+
+    .podium-user:hover {
+        transform: scale(1.1) translateY(-10px);
+    }
+   .podium-user.first:hover {
+       transform: translateY(-30px) scale(1.1); /* Urcă mai sus */
+   }
+   .podium-user.second:hover {
+       transform: translateY(40px) scale(1.05); /* Rămâne jos dar crește puțin */
+   }
+   .podium-user.third:hover {
+       transform: translateY(100px) scale(1.05); /* Rămâne jos dar crește puțin */
+   }
+
+    .crown {
+        position: absolute;
+        top: -2.5rem;
+        font-size: 2.5rem;
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        animation: floatCrown 3s ease-in-out infinite;
+    }
+
+    .profile-pic {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid;
+        overflow: hidden;
+    }
+
+
+
+    .profile-pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .first .profile-pic {
+        border-color: #ffd700;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+
+    .second .profile-pic {
+        border-color: #c0c0c0;
+        box-shadow: 0 0 15px rgba(192, 192, 192, 0.3);
+    }
+
+    .third .profile-pic {
+        border-color: #cd7f32;
+        box-shadow: 0 0 15px rgba(205, 127, 50, 0.3);
+    }
+
+
+    .rank {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.5em;
+        margin: 1rem 0;
+    }
+
+
+
+    .first .rank {
+        background: #ffd700;
+        color: #000;
+    }
+
+    .second .rank {
+        background: #c0c0c0;
+        color: #000;
+    }
+
+    .third .rank {
+        background: #cd7f32;
+        color: #000;
+    }
+
+    .name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0.5rem 0;
+        background: linear-gradient(90deg, #ffffff, #a5a5a5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .score {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #4CAF50;
+        text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+    }
+
+    .other-users {
+        background: rgba(255,255,255,0.05);
+        border-radius: 1rem;
+        padding: 1rem;
+    }
+
+    .user-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .user-row:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(10px);
+        }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .user-rank {
+        font-size: 1.2rem;
+        font-weight: bold;
+        min-width: 2rem;
+    }
+
+    .default-avatar-container {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #2a2f4c, #373e5c);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: white;
+    }
+
+    .default-avatar {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(135deg, #2a2f4c 0%, #373e5c 100%);
+        border-radius: 50%;
+        text-transform: uppercase;
+        box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+    }
+    .points {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #4CAF50;
+        margin-left: auto;
+    }
+    .profile-pic.small {
+        width: 50px;
+        height: 50px;
+        margin-right: 1rem;
+    }
+
+    @@keyframes floatCrown {
+        0%, 100% { transform: translateY(0) rotate(-5deg); }
+        50% { transform: translateY(-10px) rotate(5deg); }
+    }
+       @@keyframes enterPodium {
+       from {
+           opacity: 0;
+           transform: translateY(100px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }
+
+    .podium-user.first {
+        animation: enterFirst 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+       @@keyframes enterFirst {
+       from {
+           opacity: 0;
+           transform: translateY(100px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }
+
+    .podium-user.second {
+        animation: enterSecond 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+       @@keyframes enterSecond {
+       from {
+           opacity: 0;
+           transform: translateY(100px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(60px);
+       }
+   }
+
+   .podium-user.third {
+       animation: enterThird 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+   }
+      @@keyframes enterThird {
+       from {
+           opacity: 0;
+           transform: translateY(100px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(120px);
+       }
+   }
+    @@keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @@keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    @@keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .podium-user {
+        animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        opacity: 0;
+    }
+
+    .first { animation-delay: 0.4s; }
+    .second { animation-delay: 0.2s; }
+    .third { animation-delay: 0.6s; }
+
+    .other-users {
+        animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        animation-delay: 0.8s;
+        opacity: 0;
+    }
+
+    /* Efect de gradient pentru background */
+    .leaderboard-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, 
+            rgba(76, 175, 80, 0.1),
+            rgba(33, 150, 243, 0.1));
+        z-index: -1;
+        border-radius: 1rem;
+    }
+</style>
+@model List<LeaderboardEntry>
+
+<div class="leaderboard-container">
+    <h1 class="text-center mb-5">Leaderboard</h1>
+
+    <!-- Podium pentru top 3 -->
+    <div class="podium-section">
+        @if (Model.Count >= 2)
+        {
+            <div class="podium-user second">
+                <div class="profile-pic">
+                    @if (Model[1].User.Profile?.ProfileImage != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(Model[1].User.Profile.ProfileImage))" />
+                    }
+                    else
+                    {
+                        <div class="default-avatar">@Model[1].User.Profile?.ProfileName?.Substring(0, 1)</div>
+                    }
+                </div>
+                <div class="rank">2</div>
+                <div class="name">@Model[1].User.Profile?.ProfileName</div>
+                <div class="score">@Model[1].Points</div>
+            </div>
+        }
+
+        @if (Model.Count >= 1)
+        {
+            <div class="podium-user first">
+                <div class="crown">👑</div>
+                <div class="profile-pic">
+                    @if (Model[0].User.Profile?.ProfileImage != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(Model[0].User.Profile.ProfileImage))" />
+                    }
+                    else
+                    {
+                        <div class="default-avatar">@Model[0].User.Profile?.ProfileName?.Substring(0, 1)</div>
+                    }
+                </div>
+                <div class="rank">1</div>
+                <div class="name">@Model[0].User.Profile?.ProfileName</div>
+                <div class="score">@Model[0].Points</div>
+            </div>
+        }
+
+        @if (Model.Count >= 3)
+        {
+            <div class="podium-user third">
+                <div class="profile-pic">
+                    @if (Model[2].User.Profile?.ProfileImage != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(Model[2].User.Profile.ProfileImage))" />
+                    }
+                    else
+                    {
+                        <div class="default-avatar">@Model[2].User.Profile?.ProfileName?.Substring(0, 1)</div>
+                    }
+                </div>
+                <div class="rank">3</div>
+                <div class="name">@Model[2].User.Profile?.ProfileName</div>
+                <div class="score">@Model[2].Points</div>
+            </div>
+        }
+    </div>
+
+    <!-- Lista pentru restul utilizatorilor -->
+    <div class="other-users">
+        @foreach (var user in ViewBag.OtherUsers)
+        {
+            <div class="user-row">
+                <div class="user-info">
+                    @if (user.User.Profile?.ProfileImage != null)
+                    {
+                        <div class="profile-pic small">
+                            <img src="data:image/*;base64,@(Convert.ToBase64String(user.User.Profile.ProfileImage))" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="default-avatar">
+                            @(user.User.Profile?.ProfileName?.Substring(0, 1).ToUpper() ?? "?")
+                        </div>
+                        <div class="default-avatar-container">
+                            @(user.User.Profile?.ProfileName?.Substring(0, 1).ToUpper())
+                        </div>
+                    }
+                    <span class="user-name">@user.User.Profile?.ProfileName</span>
+                </div>
+                <div class="points">@user.Points</div>
+            </div>
+        }
+    </div>
+</div>

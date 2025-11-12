@@ -3,110 +3,224 @@
     ViewBag.Title = "Cereri prietenie";
 }
 
-<style>
-    body {
-        background: url('/images/Poza.png') no-repeat center center fixed;
-        background-size: cover;
-        color: #333; /* Darker text color for better contrast */
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* New font family */
-    }
+<<style>
+   body {
+       background: url('/images/Poza.png') no-repeat center center fixed;
+       background-size: cover;
+       font-family: 'Segoe UI', sans-serif;
+       color: #333;
+   }
 
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding-top: 20px;
-    }
+   .requests-container {
+       max-width: 800px;
+       margin: 2rem auto;
+       padding: 2rem;
+   }
 
-    .request-container {
-        background-color: rgba(173, 216, 230, 0.8); /* Baby blue semi-transparent background */
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    }
+   .page-title {
+       color: white;
+       font-size: 2rem;
+       text-align: center;
+       margin-bottom: 2rem;
+       font-weight: 600;
+       text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+   }
 
-    .request-details {
-        display: flex;
-        align-items: center;
-    }
+   .empty-state {
+       background: rgba(255, 255, 255, 0.95);
+       padding: 2rem;
+       border-radius: 15px;
+       text-align: center;
+       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+   }
 
-    .post-image {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        margin-right: 20px;
-        border: 2px solid #87CEEB; /* Slight border for image */
-    }
+   .empty-state p {
+       color: #666;
+       font-size: 1.1rem;
+   }
 
-    .profile-name {
-        font-weight: bold;
-        color: #1E90FF; /* Dodger blue for names */
-        margin-bottom: 5px;
-        font-size: 18px; /* Increased font size */
-    }
+   .request-card {
+       background: rgba(255, 255, 255, 0.95);
+       border-radius: 15px;
+       padding: 1.5rem;
+       margin-bottom: 1rem;
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+       transition: transform 0.3s ease;
+       position: relative;
+       overflow: hidden;
+   }
 
-    .btn {
-        background-color: #1E90FF; /* Dodger blue */
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        font-size: 14px;
-    }
+   .request-card:hover {
+       transform: translateY(-5px);
+   }
 
-        .btn:hover {
-            background-color: #104E8B; /* Darker blue on hover */
-        }
+   .request-card::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 3px;
+       background: linear-gradient(90deg, #3498db, #2ecc71);
+   }
 
-    #background-video {
-        display: none; /* Hide the background video on this page */
-    }
+   .user-info {
+       display: flex;
+       align-items: center;
+       gap: 1.5rem;
+   }
+
+   .profile-image {
+       width: 70px;
+       height: 70px;
+       border-radius: 50%;
+       object-fit: cover;
+       border: 3px solid white;
+       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+       transition: transform 0.3s ease;
+   }
+
+   .request-card:hover .profile-image {
+       transform: scale(1.1);
+   }
+
+   .user-details {
+       display: flex;
+       flex-direction: column;
+   }
+
+   .user-name {
+       font-size: 1.2rem;
+       font-weight: 600;
+       color: #2c3e50;
+       margin: 0;
+       text-decoration: none;
+       transition: color 0.3s ease;
+   }
+
+   .user-name:hover {
+       color: #3498db;
+   }
+
+   .username {
+       color: #7f8c8d;
+       font-size: 0.9rem;
+       margin-top: 0.2rem;
+   }
+
+   .action-buttons {
+       display: flex;
+       gap: 1rem;
+   }
+
+   .btn-accept {
+       background: linear-gradient(45deg, #2ecc71, #27ae60);
+       color: white;
+       border: none;
+       padding: 0.8rem 1.5rem;
+       border-radius: 25px;
+       font-weight: 500;
+       cursor: pointer;
+       transition: all 0.3s ease;
+       display: flex;
+       align-items: center;
+       gap: 0.5rem;
+   }
+
+   .btn-reject {
+       background: linear-gradient(45deg, #e74c3c, #c0392b);
+       color: white;
+       border: none;
+       padding: 0.8rem 1.5rem;
+       border-radius: 25px;
+       font-weight: 500;
+       cursor: pointer;
+       transition: all 0.3s ease;
+       display: flex;
+       align-items: center;
+       gap: 0.5rem;
+   }
+
+   .btn-accept:hover, .btn-reject:hover {
+       transform: translateY(-2px);
+       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+   }
+
+   .btn-accept:active, .btn-reject:active {
+       transform: translateY(0);
+   }
+
+   @@keyframes slideIn {
+       from {
+           opacity: 0;
+           transform: translateY(20px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }
+
+   .request-card {
+       animation: slideIn 0.5s ease forwards;
+   }
 </style>
 
-<div class="container">
-    <h2 class="fontbun1" style="color: #1E90FF;">Afisare Cereri</h2>
+<div class="requests-container">
+   <h1 class="page-title">Cereri de prietenie</h1>
 
-    @if (ViewBag.Prietenie == null || ViewBag.Prietenie.Count == 0)
-    {
-        <p class="fontbun1">Momentan nu există cereri de prietenie.</p>
-    }
-    else
-    {
-        @foreach (var pr in ViewBag.Prietenie)
-        {
-            <div class="request-container">
-                <div class="request-details">
-                    <a href="/Profiles/Show2/@pr.UserId">
-                        @if (pr.ProfileImage != null)
-                        {
-                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(pr.ProfileImage)" alt="Post Image" class="post-image" />
-                        }
-                        else
-                        {
-                            <img src="/images/default-avatar.png" alt="Default Profile Picture" class="post-image" />
-                        }
-                    </a>
-                    <div>
-                        <a href="/Profiles/Show2/@pr.UserId">
-                            <h3 class="profile-name">@pr.ProfileName</h3>
-                        </a>
-                        <p>@pr.ProfileUsername</p>
-                    </div>
-                </div>
-                <div>
-                    <form method="post" action="/Profiles/AcceptFr/@pr.UserId" style="display:inline;">
-                        <button class="btn" type="submit">Accepta cererea</button>
-                    </form>
-                    <form method="post" action="/Profiles/DeleteFr/@pr.UserId" style="display:inline;">
-                        <button class="btn" type="submit">Refuza cererea</button>
-                    </form>
-                </div>
-            </div>
-        }
-    }
+   @if (ViewBag.Prietenie == null || ViewBag.Prietenie.Count == 0)
+   {
+       <div class="empty-state">
+           <p>Nu ai nicio cerere de prietenie momentan.</p>
+       </div>
+   }
+   else
+   {
+       @foreach (var pr in ViewBag.Prietenie)
+       {
+           <div class="request-card">
+               <div class="user-info">
+                   <a href="/Profiles/Show2/@pr.UserId">
+                       @if (pr.ProfileImage != null)
+                       {
+                           <img src="data:image/jpeg;base64,@Convert.ToBase64String(pr.ProfileImage)" 
+                                alt="Profile Picture" 
+                                class="profile-image" />
+                       }
+                       else
+                       {
+                           <img src="/images/default-avatar.png" 
+                                alt="Default Profile Picture" 
+                                class="profile-image" />
+                       }
+                   </a>
+                   <div class="user-details">
+                       <a href="/Profiles/Show2/@pr.UserId" class="user-name">
+                           @pr.ProfileName
+                       </a>
+                       <span class="username">@@@pr.ProfileUsername</span>
+                   </div>
+               </div>
+
+               <div class="action-buttons">
+                   <form method="post" action="/Profiles/AcceptFr/@pr.UserId">
+                       <button class="btn-accept" type="submit">
+                           <i class="bi bi-check-lg"></i>
+                           Acceptă
+                       </button>
+                   </form>
+                   <form method="post" action="/Profiles/DeleteFr/@pr.UserId">
+                       <button class="btn-reject" type="submit">
+                           <i class="bi bi-x-lg"></i>
+                           Refuză
+                       </button>
+                   </form>
+               </div>
+           </div>
+       }
+   }
 </div>

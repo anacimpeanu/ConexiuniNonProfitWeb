@@ -26,18 +26,24 @@ namespace ConexiuniNonProfit.Controllers
 
 		private readonly RoleManager<IdentityRole> _roleManager;
 
-		public ProfilesController(
+        //private readonly BadgeService _badgeService;
+
+        public ProfilesController(
 			ApplicationDbContext context,
 			UserManager<ApplicationUser> userManager,
 			RoleManager<IdentityRole> roleManager
-			)
+            //BadgeService badgeService
+
+            )
 		{
 			db = context;
 
 			_userManager = userManager;
 
 			_roleManager = roleManager;
-		}
+
+            //_badgeService = badgeService;
+        }
 
 
 		[Authorize(Roles = "User,Admin")]
@@ -115,39 +121,40 @@ namespace ConexiuniNonProfit.Controllers
 
 			return View(profile);
 		}
-		// Se adauga articolul in baza de date
-		// Doar utilizatorii cu rolul de Editor sau Admin pot adauga articole in platforma
+        // Se adauga articolul in baza de date
+        // Doar utilizatorii cu rolul de Editor sau Admin pot adauga articole in platforma
 
-		[Authorize(Roles = "User,Admin")]
-		[HttpPost]
-		public IActionResult New(Profile profile, IFormFile? ProfileImage)
-		{
-			profile.UserId = _userManager.GetUserId(User);
+        [Authorize(Roles = "User,Admin")]
+        [HttpPost]
+        public IActionResult New(Profile profile, IFormFile? ProfileImage)
+        {
+            profile.UserId = _userManager.GetUserId(User);
+            profile.ProfileCategory = ProfileType.Voluntar; // Valoare implicită sau poți adăuga în formular
 
-			if (ModelState.IsValid)
-			{
-				if (ProfileImage != null && ProfileImage.Length > 0)
-				{
-					using (var memoryStream = new MemoryStream())
-					{
-						ProfileImage.CopyTo(memoryStream);
-						profile.ProfileImage = memoryStream.ToArray();
-					}
-				}
+            if (ModelState.IsValid)
+            {
+                if (ProfileImage != null && ProfileImage.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        ProfileImage.CopyTo(memoryStream);
+                        profile.ProfileImage = memoryStream.ToArray();
+                    }
+                }
 
-				db.Profiles.Add(profile);
-				db.SaveChanges();
-				TempData["message"] = "Profilul a fost adaugat";
-				return RedirectToAction("Index");
-			}
-			else
-			{
-				return View(profile);
-			}
-		}
+                db.Profiles.Add(profile);
+                db.SaveChanges();
+                TempData["message"] = "Profilul a fost adaugat";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(profile);
+            }
+        }
 
 
-		[Authorize(Roles = "User,Admin")]
+        [Authorize(Roles = "User,Admin")]
 		public IActionResult Show(int id)
 		{
 
@@ -190,8 +197,10 @@ namespace ConexiuniNonProfit.Controllers
 			{
 				ViewBag.Message = TempData["message"];
 			}
-
-			return View(profile);
+            //string userId = profile.UserId;
+            // friendsCount = GetFriendsCount(userId);
+            //ViewBag.FriendsCount = friendsCount;
+            return View(profile);
 		}
 
 		[Authorize(Roles = "User,Admin")]
@@ -297,41 +306,40 @@ namespace ConexiuniNonProfit.Controllers
 			}
 
 		}
-		// Se adauga articolul modificat in baza de date
-		[HttpPost]
-		[Authorize(Roles = "Admin,User")]
-		public IActionResult Edit(int id, Profile requestProfile)
-		{
-			Profile profile = db.Profiles.Find(id);
+        // Se adauga articolul modificat in baza de date
+        [HttpPost]
+        [Authorize(Roles = "Admin,User")]
+        public IActionResult Edit(int id, Profile requestProfile)
+        {
+            Profile profile = db.Profiles.Find(id);
 
+            if (ModelState.IsValid)
+            {
+                if (profile.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+                {
+                    profile.ProfileName = requestProfile.ProfileName;
+                    profile.ProfileBio = requestProfile.ProfileBio;
+                    profile.ProfileUsername = requestProfile.ProfileUsername;
+                    profile.ProfilePublic = requestProfile.ProfilePublic;
+                    profile.ProfileCategory = requestProfile.ProfileCategory; // Adăugat
 
-			if (ModelState.IsValid)
-			{
-				if (profile.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
-				{
-					profile.ProfileName = requestProfile.ProfileName;
-					profile.ProfileBio = requestProfile.ProfileBio;
-					profile.ProfileUsername = requestProfile.ProfileUsername;
-					profile.ProfilePublic = requestProfile.ProfilePublic;
-					//post.PostDate = requestPost.PostDate;
-					//trb si group id ulterior
-					TempData["message"] = "Profilul a fost modificat";
-					db.SaveChanges();
-					return RedirectToAction("Show", new { id = profile.ProfileId });
-				}
-				else
-				{
-					TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui profil care nu va apartine";
-					return RedirectToAction("Index");
-				}
-			}
-			else
-			{
-				return View(requestProfile);
-			}
-		}
+                    TempData["message"] = "Profilul a fost modificat";
+                    db.SaveChanges();
+                    return RedirectToAction("Show", new { id = profile.ProfileId });
+                }
+                else
+                {
+                    TempData["message"] = "Nu aveti dreptul sa faceti modificari";
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                return View(requestProfile);
+            }
+        }
 
-		[Authorize(Roles = "User,Admin")]
+        [Authorize(Roles = "User,Admin")]
 		public IActionResult Match(int id, int currentIndex = 0)
 		{
 			string currentUserId = _userManager.GetUserId(User);
@@ -478,15 +486,19 @@ namespace ConexiuniNonProfit.Controllers
 			return View();
 		}
 		[HttpPost]
-		public IActionResult AcceptFr(string id)
-		{
-			var prietenie = db.Friends.Where(p => p.User1_Id == id)
-				.Where(p => p.User2_Id == _userManager.GetUserId(User)).First();
-			prietenie.Accepted = true;
-			db.SaveChanges();
-			return Redirect("/Profiles/All/" + _userManager.GetUserId(User));
-		}
-		[HttpPost]
+        public async Task<IActionResult> AcceptFr(string id)
+        {
+            var prietenie = db.Friends.Where(p => p.User1_Id == id)
+                .Where(p => p.User2_Id == _userManager.GetUserId(User)).First();
+            prietenie.Accepted = true;
+            db.SaveChanges();
+
+            //await _badgeService.CheckAndAwardBadges(id);
+            //await _badgeService.CheckAndAwardBadges(_userManager.GetUserId(User));
+
+            return Redirect("/Profiles/All/" + _userManager.GetUserId(User));
+        }
+        [HttpPost]
 		public IActionResult DeleteFr(string id)
 		{
 			var prietenie = db.Friends.Where(p => p.User1_Id == id)
@@ -496,8 +508,15 @@ namespace ConexiuniNonProfit.Controllers
 			db.SaveChanges();
 			return RedirectToAction("Request");
 		}
+        public int GetFriendsCount(string userId)
+        {
+            var friendsCount = db.Friends
+                .Where(f => (f.User1_Id == userId || f.User2_Id == userId) && f.Accepted == true)
+                .Count();
 
-		private void SetAccessRights()
+            return friendsCount;
+        }
+        private void SetAccessRights()
 		{
 			ViewBag.AfisareButoane = false;
 

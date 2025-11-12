@@ -4,67 +4,136 @@
 }
 
 <style>
-    /* Global Styles */
-    body {
-        background: url('/images/WorkAndTravelUsa.png') no-repeat center center fixed;
-        background-size: cover;
-        color: black;
-        font-family: Arial, sans-serif; /* Specify a fallback font family */
-        margin: 0; /* Remove default margin */
-        padding: 0; /* Remove default padding */
-    }
+   body {
+       background: url('/images/WorkAndTravelUsa.png') no-repeat center center fixed;
+       background-size: cover;
+       font-family: 'Segoe UI', sans-serif;
+       min-height: 100vh;
+   }
 
-    /* Styling for the main content */
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
-    }
+   .edit-comment-container {
+       max-width: 600px;
+       margin: 3rem auto;
+       background: rgba(255, 255, 255, 0.95);
+       border-radius: 20px;
+       padding: 2rem;
+       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+       position: relative;
+       overflow: hidden;
+   }
 
-    /* Form Styles */
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        font-size: 16px;
-    }
+   .edit-comment-container::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 4px;
+       background: linear-gradient(90deg, #3498db, #2ecc71);
+   }
 
-    .btn {
-        background-color: cornflowerblue; /* Green background */
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+   .edit-title {
+       font-size: 1.8rem;
+       color: #2c3e50;
+       margin-bottom: 2rem;
+       text-align: center;
+       font-weight: 600;
+   }
 
-        .btn:hover {
-            background-color: cornflowerblue; /* Darker green on hover */
-        }
+   .form-group {
+       margin-bottom: 1.5rem;
+   }
 
-    .text-danger {
-        color: red;
-    }
+   .form-label {
+       display: block;
+       color: #34495e;
+       font-size: 1.1rem;
+       margin-bottom: 0.5rem;
+       font-weight: 500;
+   }
+
+   .form-control {
+       width: 100%;
+       padding: 1rem;
+       border: 2px solid #e0e0e0;
+       border-radius: 12px;
+       font-size: 1rem;
+       transition: all 0.3s ease;
+       background: white;
+       color: #2c3e50;
+       min-height: 120px;
+       resize: vertical;
+   }
+
+   .form-control:focus {
+       outline: none;
+       border-color: #3498db;
+       box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+   }
+
+   .validation-message {
+       color: #e74c3c;
+       font-size: 0.9rem;
+       margin-top: 0.5rem;
+       display: block;
+   }
+
+   .btn-edit {
+       background: linear-gradient(45deg, #3498db, #2980b9);
+       color: white;
+       border: none;
+       padding: 1rem 2rem;
+       border-radius: 25px;
+       font-size: 1.1rem;
+       font-weight: 500;
+       width: 100%;
+       cursor: pointer;
+       transition: all 0.3s ease;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       gap: 0.5rem;
+   }
+
+   .btn-edit:hover {
+       transform: translateY(-2px);
+       box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+   }
+
+   .btn-edit:active {
+       transform: translateY(0);
+   }
+
+   @@keyframes slideIn {
+       from {
+           opacity: 0;
+           transform: translateY(20px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }
+
+   .edit-comment-container {
+       animation: slideIn 0.5s ease forwards;
+   }
 </style>
 
-<div class="container">
-    <h2 class="fontbun1 culoarebuna">Editare comentariu</h2>
-    <br />
+<div class="edit-comment-container">
+   <h2 class="edit-title">Editare comentariu</h2>
 
-    @using (Html.BeginForm("Edit", "Comments", FormMethod.Post, new { id = "editCommentForm" }))
-    {
-        @Html.LabelFor(model => model.CommentContent, "Continut comentariu", new { @class = "fontbun1" })
-        <br />
-        @Html.EditorFor(model => model.CommentContent, new { htmlAttributes = new { @class = "form-control fontbun1" } })
-        @Html.ValidationMessageFor(model => model.CommentContent, "", new { @class = "text-danger fontbun1" })
-        <br />
-        <br />
-        <button type="submit" class="btn culoaresus">Editeaza comentariul</button>
-    }
+   @using (Html.BeginForm("Edit", "Comments", FormMethod.Post, new { id = "editCommentForm" }))
+   {
+       <div class="form-group">
+           <label class="form-label">Conținut comentariu</label>
+           @Html.TextAreaFor(model => model.CommentContent, new { @class = "form-control", placeholder = "Scrie comentariul tău aici..." })
+           @Html.ValidationMessageFor(model => model.CommentContent, "", new { @class = "validation-message" })
+       </div>
+
+       <button type="submit" class="btn-edit">
+           <i class="bi bi-pencil-square"></i>
+           Salvează modificările
+       </button>
+   }
 </div>

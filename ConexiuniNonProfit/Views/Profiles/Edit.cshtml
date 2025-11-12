@@ -7,147 +7,156 @@
     body {
         background: url('/images/Poza.png') no-repeat center center fixed;
         background-size: cover;
-        color: white;
-        font-family: Arial, sans-serif;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
     }
 
     .container {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
+        padding: 20px;
     }
 
     .profile-form {
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 10px;
-        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 30px;
         width: 100%;
-        max-width: 1200px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 900px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
-        color: #333;
+        gap: 30px;
     }
 
-        .profile-form .form-left {
-            flex: 1;
-            padding-right: 20px;
+    .form-left {
+        flex: 2;
+    }
+
+    .form-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .profile-form h2 {
+        color: #ff8c00;
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group {
+        display: flex;
+        align-items: center;
+        background: #f9f9f9;
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+        transition: border-color 0.3s ease;
+    }
+
+        .input-group:hover {
+            border-color: #ff8c00;
         }
 
-        .profile-form .form-right {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            text-align: center;
-            align-self: flex-start;
-            padding-top: 20px;
-        }
-
-        .profile-form h2 {
-            text-align: left;
-            margin-bottom: 20px;
-            color: #333;
-            width: 100%;
-        }
-
-        .profile-form .form-group {
-            margin-bottom: 15px;
-        }
-
-        .profile-form .input-group {
-            display: flex;
-            align-items: center;
-        }
-
-            .profile-form .input-group span {
-                background: #ff8c00;
-                padding: 10px;
-                border-radius: 10px 0 0 10px;
-                color: white;
-            }
-
-        .profile-form .form-control {
-            border: 2px solid #ff8c00;
-            border-radius: 0 10px 10px 0;
-            padding: 10px;
-            flex: 1;
-        }
-
-            .profile-form .form-control:focus {
-                border-color: #ff6b00;
-                outline: none;
-            }
-
-        .profile-form .form-checkbox {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ff8c00;
-            border-radius: 50%;
-            cursor: pointer;
-            outline: none;
-        }
-
-            .profile-form .form-checkbox:checked {
-                background-color: #ff8c00;
-            }
-
-        .profile-form .btn {
-            background-color: #ff8c00;
+        .input-group span {
+            background: #ff8c00;
+            padding: 12px;
+            border-radius: 10px 0 0 10px;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    .form-control {
+        border: none;
+        background: transparent;
+        padding: 12px;
+        flex: 1;
+        font-size: 16px;
+        outline: none;
+    }
+
+        .form-control:focus {
+            box-shadow: none;
+        }
+
+    .form-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ff8c00;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+        .form-checkbox:checked {
+            background-color: #ff8c00;
+        }
+
+    .btn {
+        background-color: #ff8c00;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+        .btn:hover {
+            background-color: #ff6b00;
+        }
+
+    .profile-image {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+        .profile-image img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 4px solid #ff8c00;
+        }
+
+        .profile-image label {
             display: inline-block;
-            font-size: 18px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-            width: 100%;
-            max-width: 300px;
-        }
-
-            .profile-form .btn:hover {
-                background-color: #ff6b00;
-            }
-
-        .profile-form .profile-image {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-            .profile-form .profile-image img {
-                border-radius: 50%;
-                width: 150px;
-                height: 150px;
-                margin-bottom: 10px;
-            }
-
-            .profile-form .profile-image input {
-                display: none;
-            }
-
-            .profile-form .profile-image label {
-                cursor: pointer;
-                display: block;
-                margin-top: 10px;
-                color: #ff8c00;
-            }
-
-        .profile-form label {
-            font-size: 18px;
+            margin-top: 10px;
             color: #ff8c00;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.3s ease;
         }
+
+            .profile-image label:hover {
+                color: #ff6b00;
+            }
+
+        .profile-image input {
+            display: none;
+        }
+
+    .text-danger {
+        color: #ff4444;
+        font-size: 14px;
+        margin-top: 5px;
+    }
 </style>
 
 <div class="container">
@@ -161,7 +170,7 @@
             <div class="form-group">
                 @Html.Label("ProfileName", "Nume")
                 <div class="input-group">
-                    <span><i class="fas fa-user fa-icon"></i></span>
+                    <span><i class="fas fa-user"></i></span>
                     @Html.TextBox("ProfileName", Model.ProfileName, new { @class = "form-control", placeholder = "Introduceți numele dvs." })
                 </div>
                 @Html.ValidationMessage("ProfileName", null, new { @class = "text-danger" })
@@ -170,7 +179,7 @@
             <div class="form-group">
                 @Html.Label("ProfileUsername", "Username")
                 <div class="input-group">
-                    <span><i class="fas fa-at fa-icon"></i></span>
+                    <span><i class="fas fa-at"></i></span>
                     @Html.TextBox("ProfileUsername", Model.ProfileUsername, new { @class = "form-control", placeholder = "Introduceți username-ul dvs." })
                 </div>
                 @Html.ValidationMessage("ProfileUsername", null, new { @class = "text-danger" })
@@ -179,7 +188,7 @@
             <div class="form-group">
                 @Html.Label("ProfilePublic", "Public")
                 <div class="input-group">
-                    <span><i class="fas fa-check-square fa-icon"></i></span>
+                    <span><i class="fas fa-check-square"></i></span>
                     @Html.CheckBox("ProfilePublic", Model.ProfilePublic, new { @class = "form-checkbox" })
                 </div>
                 @Html.ValidationMessage("ProfilePublic", null, new { @class = "text-danger" })
@@ -188,10 +197,19 @@
             <div class="form-group">
                 @Html.Label("ProfileBio", "Despre")
                 <div class="input-group">
-                    <span><i class="fas fa-info-circle fa-icon"></i></span>
+                    <span><i class="fas fa-info-circle"></i></span>
                     @Html.TextArea("ProfileBio", Model.ProfileBio, new { @class = "form-control", rows = 5, placeholder = "Despre mine..." })
                 </div>
                 @Html.ValidationMessage("ProfileBio", null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("ProfileCategory", "Tip Profil")
+                <div class="input-group">
+                    <span><i class="fas fa-user-tag"></i></span>
+                    @Html.DropDownList("ProfileCategory", new SelectList(Enum.GetValues(typeof(ConexiuniNonProfit.Models.ProfileType))), "Selectați tipul", new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessage("ProfileCategory", null, new { @class = "text-danger" })
             </div>
 
             <button type="submit" class="btn">Editează profil</button>

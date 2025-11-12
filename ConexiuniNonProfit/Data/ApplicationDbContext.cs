@@ -17,14 +17,19 @@ namespace ConexiuniNonProfit.Data
 		public DbSet<Comment> Comments { get; set; }
 		public DbSet<Profile> Profiles { get; set; }
 		public DbSet<Post> Posts { get; set; }
-		//public DbSet<Group> Groups { get; set; }
 		public DbSet<Actiuni> Actiuni { get; set; }
 		public DbSet<Friend> Friends { get; set; }
 		public DbSet<Category> Categories { get; set; }
 
+        public DbSet<PuzzlePiece> PuzzlePieces { get; set; }
+        public DbSet<QuizResult> QuizResults { get; set; }
+        //public DbSet<UserBadge> UserBadges { get; set; }
+        public DbSet<UserParticipation> UserParticipations { get; set; }
+
+       // public DbSet<LeaderboardEntry> LeaderboardEntries { get; set; }
 
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 

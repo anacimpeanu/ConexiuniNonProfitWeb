@@ -1,101 +1,207 @@
-﻿@model ConexiuniNonProfit.Models.Profile
-@{
-    ViewBag.Title = "Lista de prieteni";
-}
+﻿<style>
+   body {
+       background: url('/images/Poza.png') no-repeat center center fixed;
+       background-size: cover;
+       color: #333;
+       font-family: 'Segoe UI', sans-serif;
+   }
 
-<style>
-    body {
-        background: url('/images/Poza.png') no-repeat center center fixed;
-        background-size: cover;
-        color: #333; /* Darker text color for better contrast */
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* New font family */
-    }
+   .friends-container {
+       max-width: 800px;
+       margin: 2rem auto;
+       padding: 2rem;
+   }
 
-    .friend-container {
-        background-color: rgba(173, 216, 230, 0.8); /* Baby blue semi-transparent background */
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    }
+   .page-title {
+       text-align: center;
+       margin-bottom: 3rem;
+       color: white;
+       font-size: 2.5rem;
+       font-weight: 600;
+       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+   }
 
-    .friend-details {
-        display: flex;
-        align-items: center;
-    }
+   .friends-grid {
+       display: grid;
+       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+       gap: 1.5rem;
+   }
 
-    .profile-image {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        margin-right: 20px;
-        border: 2px solid #87CEEB; /* Slight border for image */
-    }
+   .friend-card {
+       background: rgba(255, 255, 255, 0.9);
+       border-radius: 20px;
+       padding: 1.5rem;
+       transition: all 0.3s ease;
+       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+       position: relative;
+       overflow: hidden;
+   }
 
-    .profile-name {
-        font-weight: bold;
-        color: #1E90FF; /* Dodger blue for names */
-        margin-bottom: 5px;
-        font-size: 18px; /* Increased font size */
-    }
+   .friend-card:hover {
+       transform: translateY(-5px);
+       box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+   }
 
-    .btn-danger {
-        background-color: #1E90FF; /* Dodger blue */
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        font-size: 14px;
-    }
+   .friend-card::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 4px;
+       background: linear-gradient(90deg, #3498db, #2ecc71);
+   }
 
-        .btn-danger:hover {
-            background-color: #104E8B; /* Darker blue on hover */
-        }
+   .friend-header {
+       display: flex;
+       align-items: center;
+       gap: 1rem;
+       margin-bottom: 1rem;
+   }
 
-    #background-video {
-        display: none; /* Hide the background video on this page */
-    }
+   .friend-avatar {
+       width: 80px;
+       height: 80px;
+       border-radius: 50%;
+       border: 4px solid white;
+       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+       transition: transform 0.3s ease;
+   }
+
+   .friend-card:hover .friend-avatar {
+       transform: scale(1.1);
+   }
+
+   .friend-info {
+       flex: 1;
+   }
+
+   .friend-name {
+       font-size: 1.3rem;
+       font-weight: 600;
+       color: #2c3e50;
+       margin: 0;
+       transition: color 0.3s ease;
+   }
+
+   .friend-name:hover {
+       color: #3498db;
+   }
+
+   .friend-username {
+       color: #7f8c8d;
+       font-size: 0.9rem;
+       margin-top: 0.3rem;
+   }
+
+   .friend-actions {
+       display: flex;
+       justify-content: flex-end;
+       margin-top: 1rem;
+   }
+
+   .btn-remove {
+       background: linear-gradient(45deg, #e74c3c, #c0392b);
+       color: white;
+       border: none;
+       padding: 0.8rem 1.5rem;
+       border-radius: 25px;
+       font-weight: 500;
+       transition: all 0.3s ease;
+       display: flex;
+       align-items: center;
+       gap: 0.5rem;
+   }
+
+   .btn-remove:hover {
+       transform: translateY(-2px);
+       box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+   }
+
+   .empty-state {
+       text-align: center;
+       padding: 3rem;
+       background: rgba(255, 255, 255, 0.9);
+       border-radius: 20px;
+       margin: 2rem auto;
+       max-width: 500px;
+   }
+
+   .empty-state-message {
+       color: #7f8c8d;
+       font-size: 1.2rem;
+       margin: 0;
+   }
+
+   @@keyframes fadeIn {
+       from {
+           opacity: 0;
+           transform: translateY(20px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }
+
+   .friend-card {
+       animation: fadeIn 0.5s ease forwards;
+       opacity: 0;
+   }
+
+   .friend-card:nth-child(1) { animation-delay: 0.1s; }
+   .friend-card:nth-child(2) { animation-delay: 0.2s; }
+   .friend-card:nth-child(3) { animation-delay: 0.3s; }
+   /* și așa mai departe */
 </style>
 
-<div class="container">
-    <h2 class="fontbun1" style="color: #1E90FF;">Afisare Prieteni</h2>
+<div class="friends-container">
+   <h1 class="page-title">Prietenii mei</h1>
 
-    @if (ViewBag.Prietenie == null || ViewBag.Prietenie.Count == 0)
-    {
-        <p class="fontbun1">Nu aveți niciun prieten adăugat.</p>
-    }
-    else
-    {
-        @foreach (var pr in ViewBag.Prietenie)
-        {
-            <div class="friend-container">
-                <div class="friend-details">
-                    <a href="/Profiles/Show2/@pr.UserId">
-                        @if (pr?.User?.Profile?.ProfileImage != null)
-                        {
-                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(pr.User.Profile.ProfileImage)" alt="Profile Picture" class="profile-image" />
-                        }
-                        else
-                        {
-                            <img src="/images/default-avatar.png" alt="Default Profile Picture" class="profile-image" />
-                        }
-                    </a>
-                    <div>
-                        <a href="/Profiles/Show2/@pr.UserId">
-                            <h3 class="profile-name">@pr.ProfileName</h3>
-                        </a>
-                        <p>@pr.ProfileUsername</p>
-                    </div>
-                </div>
-                <form method="post" action="/Profiles/DeleteFriendship/@pr.UserId">
-                    <button class="btn-danger" type="submit"><i class="bi bi-trash3"></i></button>
-                </form>
-            </div>
-        }
-    }
+   @if (ViewBag.Prietenie == null || ViewBag.Prietenie.Count == 0)
+   {
+       <div class="empty-state">
+           <p class="empty-state-message">Nu ai niciun prieten adăugat încă.</p>
+       </div>
+   }
+   else
+   {
+       <div class="friends-grid">
+           @foreach (var pr in ViewBag.Prietenie)
+           {
+               <div class="friend-card">
+                   <div class="friend-header">
+                       <a href="/Profiles/Show2/@pr.UserId">
+                           @if (pr?.User?.Profile?.ProfileImage != null)
+                           {
+                               <img src="data:image/jpeg;base64,@Convert.ToBase64String(pr.User.Profile.ProfileImage)" 
+                                    alt="Profile Picture" 
+                                    class="friend-avatar" />
+                           }
+                           else
+                           {
+                               <img src="/images/default-avatar.png" 
+                                    alt="Default Profile Picture" 
+                                    class="friend-avatar" />
+                           }
+                       </a>
+                       <div class="friend-info">
+                           <a href="/Profiles/Show2/@pr.UserId">
+                               <h3 class="friend-name">@pr.ProfileName</h3>
+                           </a>
+                           <p class="friend-username">@@@pr.ProfileUsername</p>
+                       </div>
+                   </div>
+                   <div class="friend-actions">
+                       <form method="post" action="/Profiles/DeleteFriendship/@pr.UserId">
+                           <button class="btn-remove" type="submit">
+                               <i class="bi bi-person-x-fill"></i>
+                               Elimină prieten
+                           </button>
+                       </form>
+                   </div>
+               </div>
+           }
+       </div>
+   }
 </div>

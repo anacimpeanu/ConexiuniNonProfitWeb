@@ -1,156 +1,157 @@
-﻿@{
-    ViewBag.Title = "SearchBar";
-}
-
-<style>
-    body {
-        background: url('/images/CNP.png') no-repeat center center fixed;
-        background-size: cover;
-        color: white; /* Adjust text color for visibility */
-        font-family: Arial, sans-serif;
-    }
-
-    .video-bg {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        max-width: 300%;
-        max-height: 300%;
-        z-index: -1;
-        opacity: 0; /* Adjust the opacity as needed */
-    }
-
-    .input-group.mb-3 {
-        max-width: 500px;
+﻿<style>
+    .search-container {
+        max-width: 600px;
         margin: 50px auto;
-        background: rgba(0, 0, 0, 0.6); /* Dark transparent background */
         padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for depth */
     }
 
-        .input-group.mb-3 .form-control {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            background: rgba(255, 255, 255, 0.8); /* Light transparent background */
-            color: black;
-        }
-
-        .input-group.mb-3 .culoarebuton4 {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            background-color: #00aaff; /* Bright blue button color */
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-            .input-group.mb-3 .culoarebuton4:hover {
-                background-color: #0088cc; /* Darker blue on hover */
-            }
-    .card {
-        background-color: #f5f5f5; /* Light grey background */
-        border-radius: 10px;
-        margin: 20px auto; /* Center the cards */
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
-        max-width: 500px; /* Limit card width */
-        color: black;
-        overflow: hidden;
-        display: flex; /* Flexbox for aligning profile picture and text */
-        align-items: center;
-    }
-
-        .card img {
-            width: 80px; /* Size of the profile picture */
-            height: 80px;
-            border-radius: 50%; /* Make the profile picture round */
-            margin-right: 20px; /* Space between image and text */
-        }
-
-        .card .card-header9 {
-            text-align: left; /* Align text to the left */
-        }
-
-            .card .card-header9 a {
-                color: #00aaff; /* Blue link color */
-                font-weight: bold;
-                text-decoration: none;
-                transition: color 0.3s;
-            }
-
-                .card .card-header9 a:hover {
-                    color: hotpink; /* Pink link color on hover */
-                }
-
-        .card .card-subtitle {
-            text-align: left; /* Align subtitle to the left */
-        }
-
-    .fontbun1 {
-        color: black; /* Font color */
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7); /* Subtle text shadow */
-    }
-
-    .culoarebuna {
-        color: #00aaff; /* Blue text color */
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* More prominent text shadow */
-    }
-
-    .text-center {
+    .search-title {
         text-align: center;
-    }
-
-    h3, h6 {
-        text-transform: uppercase; /* Uppercase text */
-        letter-spacing: 1px; /* Increased letter spacing */
-        font-weight: bold;
-    }
-
-    h3 {
-        background: linear-gradient(90deg, #00aaff, #00ff6a); /* Gradient text background */
+        margin-bottom: 2rem;
+        font-size: 1.8rem;
+        background: linear-gradient(45deg, #2b5876, #4e4376);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
 
-    #background-video {
-        display: none; /* Hide video completely on this page */
+    .search-form {
+        position: relative;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
     }
 
-    .description {
-        color: #555;
-        margin: 10px 0;
+    .search-input {
+        width: 100%;
+        padding: 15px 60px 15px 30px;
+        border: none;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        font-size: 1.1rem;
+        color: #333;
+        transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+        outline: none;
+        box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .search-button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: linear-gradient(45deg, #2b5876, #4e4376);
+        border: none;
+        border-radius: 15px;
+        padding: 10px 20px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .search-button:hover {
+        background: linear-gradient(45deg, #4e4376, #2b5876);
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    /* Rezultate căutare */
+    .result-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        margin: 20px auto;
+        padding: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        max-width: 500px;
+        transform: translateY(20px);
+        animation: slideUp 0.5s forwards;
+    }
+
+    .result-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .profile-image {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-name {
+        color: #333;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0;
+        transition: color 0.3s ease;
+    }
+
+    .profile-name:hover {
+        color: #2b5876;
+    }
+
+    @@keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
 
-<h3 class="fontbun1 culoarebuna text-center mt-5">Introduceți numele sau username-ul persoanei pe care vrei să o cauți!</h3>
+<div class="search-container">
+    <h3 class="search-title">Caută utilizatori</h3>
+    
+    <form method="GET" class="search-form">
+        <input type="text" 
+               class="search-input" 
+               placeholder="Caută după nume sau username..." 
+               name="search" 
+               value="@ViewBag.SearchString"
+               autocomplete="off">
+        <button class="search-button" type="submit">
+            <i class="bi bi-search"></i> Caută
+        </button>
+    </form>
 
-<form method="GET">
-    <div class="input-group mb-3 fontbun1">
-        <input type="text" class="form-control" placeholder="Nume sau username" name="search" value="@ViewBag.SearchString">
-        <button class="culoarebuton4 border-0" type="submit">Search</button>
-    </div>
-</form>
-
-@if (ViewBag.cautare == true)
-{
-    @foreach (var profil in ViewBag.profile)
+    @if (ViewBag.cautare == true)
     {
-        <div class="card">
-            @if (profil.ProfileImage != null)
-            {
-                <img src="data:image/jpeg;base64,@Convert.ToBase64String(profil.ProfileImage)" alt="Profile Picture" />
-            }
-            else
-            {
-                <img src="/images/default-avatar.png" alt="Default Profile Picture" />
-            }
-            <div class="card-header9 flex-column">
-                <a class="card-subtitle col d-block mb-2 text-muted center-block fontbun1" href="/Profiles/Show/@profil.ProfileId">Nume profil: @profil.ProfileName</a>
-
+        @foreach (var profil in ViewBag.profile)
+        {
+            <div class="result-card">
+                @if (profil.ProfileImage != null)
+                {
+                    <img class="profile-image" src="data:image/jpeg;base64,@Convert.ToBase64String(profil.ProfileImage)" alt="Profile Picture" />
+                }
+                else
+                {
+                    <img class="profile-image" src="/images/default-avatar.png" alt="Default Profile Picture" />
+                }
+                <div class="profile-info">
+                    <a href="/Profiles/Show/@profil.ProfileId" class="profile-name">
+                        @profil.ProfileName
+                    </a>
+                </div>
             </div>
-        </div>
+        }
     }
-}
+</div>

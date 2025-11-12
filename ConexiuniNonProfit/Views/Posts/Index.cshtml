@@ -177,6 +177,7 @@ else
     else
     {
         <div class="post-grid">
+
             @foreach (var post in ViewBag.postariprieteni)
             {
                 <div class="post-container">
@@ -189,9 +190,11 @@ else
                         {
                             <img src="/images/default-profile.png" alt="Profile Picture" />
                         }
+                        @if (post?.User?.Profile?.ProfileImage != null){
                         <a class="user-link" href="/Profiles/Show2/@post.UserId">
                             @post.User.Profile.ProfileName
                         </a>
+                        }
                         <span class="post-date">@post.PostDate.ToLongDateString()</span>
                     </div>
                     <div class="card-body">

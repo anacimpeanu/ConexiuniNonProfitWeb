@@ -17,7 +17,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 				.AddRoles<IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-
+//builder.Services.AddScoped<BadgeService>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
